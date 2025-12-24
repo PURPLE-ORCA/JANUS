@@ -58,7 +58,7 @@ export function OfferCard({ offer }: OfferCardProps) {
                         )}
                     </div>
                     <p className="line-clamp-2 text-sm text-neutral-500">
-                        {offer.description}
+                        {offer.description.replace(/<[^>]+>/g, '')}
                     </p>
                 </CardContent>
 

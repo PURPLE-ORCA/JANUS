@@ -206,7 +206,7 @@ NEVER use generic AI-generated aesthetics like overused font families (Inter, Ro
 
 **IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
 
-I've put technologies documentations in /docs/context folder. Please read them before starting to implement to make sure you're using the best practices.
+There will be technologies documentations in /docs/context folder. read them before starting to implement to make sure you're using the best practices.
 
 Remember: Gemini is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
 
@@ -230,7 +230,7 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 > - **Reusable Components First**: Heavily favor reusable components
 > - **120+ Line Rule**: If any file exceeds 120 lines, request code cleaning
 > - **Install Before Use**: Ask to install needed Shadcn components before starting a new page
-> - **CSS Variables**: Always use `var(--background)`, `var(--purple)`, etc.
+> - **CSS Variables**: Always use `var(--background)`, `var(--purple)`, --foreground, etc.
 
 ### Phases
 
