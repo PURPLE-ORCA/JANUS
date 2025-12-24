@@ -34,10 +34,65 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
+    avatar: string | null;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
+    role: UserRole;
+    status: UserStatus;
     created_at: string;
     updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    profile?: Profile;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Domain Types
+// ─────────────────────────────────────────────────────────────
+
+export type UserRole = 'admin' | 'candidate';
+export type UserStatus = 'pending' | 'active' | 'rejected';
+export type OfferType = 'full-time' | 'part-time' | 'freelance';
+export type ApplicationStatus =
+    | 'new'
+    | 'viewed'
+    | 'shortlisted'
+    | 'rejected'
+    | 'hired';
+
+export interface Profile {
+    id: number;
+    user_id: number;
+    headline: string;
+    resume_path: string | null;
+    phone: string;
+    skills: string[];
+    linkedin_url: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Offer {
+    id: number;
+    slug: string;
+    title: string;
+    description: string;
+    location: string;
+    salary_range: string | null;
+    type: OfferType;
+    is_active: boolean;
+    deadline: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Application {
+    id: number;
+    user_id: number;
+    offer_id: number;
+    status: ApplicationStatus;
+    cover_note: string | null;
+    created_at: string;
+    updated_at: string;
+    // Populated relations (optional)
+    user?: User;
+    offer?: Offer;
 }

@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "slug": "senior-react-developer",
+        "title": "Senior React Developer",
+        "description": "<h2>About the Role</h2><p>We're looking for a seasoned React developer to join our dynamic team. You'll be building cutting-edge web applications using the latest technologies.</p><h3>Requirements</h3><ul><li>5+ years of React experience</li><li>Strong TypeScript skills</li><li>Experience with state management (Redux, Zustand)</li><li>TailwindCSS proficiency</li></ul><h3>Nice to Have</h3><ul><li>Experience with Next.js</li><li>Testing experience (Jest, Cypress)</li></ul>",
+        "location": "Casablanca",
+        "salary_range": "25k - 35k MAD",
+        "type": "full-time",
+        "is_active": true,
+        "deadline": "2025-02-15",
+        "created_at": "2024-12-01T09:00:00Z",
+        "updated_at": "2024-12-01T09:00:00Z"
+    },
+    {
+        "id": 2,
+        "slug": "devops-engineer",
+        "title": "DevOps Engineer",
+        "description": "<h2>Join Our Infrastructure Team</h2><p>We need a talented DevOps engineer to help us scale our cloud infrastructure and improve our deployment pipelines.</p><h3>Requirements</h3><ul><li>Strong experience with AWS or GCP</li><li>Kubernetes expertise</li><li>CI/CD pipeline experience</li><li>Infrastructure as Code (Terraform/Pulumi)</li></ul>",
+        "location": "Remote",
+        "salary_range": "30k - 40k MAD",
+        "type": "full-time",
+        "is_active": true,
+        "deadline": "2025-01-30",
+        "created_at": "2024-11-15T10:00:00Z",
+        "updated_at": "2024-11-15T10:00:00Z"
+    },
+    {
+        "id": 3,
+        "slug": "ui-ux-designer",
+        "title": "UI/UX Designer",
+        "description": "<h2>Creative Design Role</h2><p>We're seeking a creative UI/UX designer to craft beautiful, user-centric interfaces for our products.</p><h3>Requirements</h3><ul><li>Figma expertise</li><li>Strong portfolio demonstrating UI/UX work</li><li>Understanding of design systems</li><li>Collaboration skills</li></ul>",
+        "location": "Rabat",
+        "salary_range": "18k - 25k MAD",
+        "type": "full-time",
+        "is_active": true,
+        "deadline": "2025-02-28",
+        "created_at": "2024-12-10T11:00:00Z",
+        "updated_at": "2024-12-10T11:00:00Z"
+    },
+    {
+        "id": 4,
+        "slug": "part-time-content-writer",
+        "title": "Part-Time Content Writer",
+        "description": "<h2>Content Creation Opportunity</h2><p>Looking for a talented writer to create engaging tech content for our blog and documentation.</p><h3>Requirements</h3><ul><li>Excellent writing skills in English and French</li><li>Tech industry knowledge</li><li>SEO understanding</li></ul>",
+        "location": "Remote",
+        "salary_range": "8k - 12k MAD",
+        "type": "part-time",
+        "is_active": true,
+        "deadline": "2025-01-15",
+        "created_at": "2024-12-15T08:00:00Z",
+        "updated_at": "2024-12-15T08:00:00Z"
+    },
+    {
+        "id": 5,
+        "slug": "freelance-mobile-developer",
+        "title": "Freelance Mobile Developer",
+        "description": "<h2>Mobile App Project</h2><p>We have a 3-month project to build a React Native mobile application.</p><h3>Requirements</h3><ul><li>React Native experience</li><li>iOS and Android deployment knowledge</li><li>API integration skills</li></ul>",
+        "location": "Remote",
+        "salary_range": "Project-based",
+        "type": "freelance",
+        "is_active": true,
+        "deadline": "2025-01-20",
+        "created_at": "2024-12-18T14:00:00Z",
+        "updated_at": "2024-12-18T14:00:00Z"
+    },
+    {
+        "id": 6,
+        "slug": "junior-backend-developer-closed",
+        "title": "Junior Backend Developer",
+        "description": "<h2>Entry Level Position</h2><p>Great opportunity for a junior developer to grow with our team.</p>",
+        "location": "Casablanca",
+        "salary_range": "10k - 15k MAD",
+        "type": "full-time",
+        "is_active": false,
+        "deadline": "2024-11-30",
+        "created_at": "2024-10-01T09:00:00Z",
+        "updated_at": "2024-12-01T09:00:00Z"
+    }
+]
