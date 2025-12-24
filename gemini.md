@@ -244,7 +244,7 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 
 - [x] Landing page redesign (`welcome.tsx`)
 - [x] Shared `GuestLayout` (`guest-layout.tsx`)
-- [ ] Offers listing (`/offers`)
+- [x] Offers listing (`/offers`)
 - [ ] Offer detail (`/offers/:slug`)
 - [ ] Pending approval page
 
