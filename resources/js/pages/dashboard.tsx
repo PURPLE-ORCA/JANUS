@@ -9,7 +9,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -195,9 +195,12 @@ export default function Dashboard() {
                                         Your profile is 70% complete. Add your
                                         LinkedIn URL to reach 100%.
                                     </p>
-                                    <button className="w-full rounded-lg bg-white py-2 text-sm font-medium shadow-sm ring-1 ring-neutral-200 hover:bg-neutral-50 dark:bg-neutral-800 dark:ring-neutral-700 dark:hover:bg-neutral-700">
+                                    <Link
+                                        href="/candidate-profile"
+                                        className="block w-full rounded-lg bg-white py-2 text-center text-sm font-medium shadow-sm ring-1 ring-neutral-200 hover:bg-neutral-50 dark:bg-neutral-800 dark:ring-neutral-700 dark:hover:bg-neutral-700"
+                                    >
                                         Complete Profile
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

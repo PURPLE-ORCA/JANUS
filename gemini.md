@@ -250,8 +250,8 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 
 **Phase 3: Candidate Portal**
 
-- [ ] Candidate dashboard with stats
-- [ ] Profile builder/editor
+- [x] Candidate dashboard with stats
+- [x] Profile builder/editor
 - [ ] My Applications page
 - [ ] Application modal/flow
 
@@ -437,13 +437,15 @@ resources/js/
 
 ---
 
+---
+
 ### What's Next: Phase 3 - Candidate Portal
 
-| Task               | Description                                                      | Priority |
-| ------------------ | ---------------------------------------------------------------- | -------- |
-| Dashboard Redesign | Replace placeholder with stats, recent applications, profile CTA | High     |
-| Profile Builder    | Form for headline, skills, resume upload (mock)                  | High     |
-| My Applications    | Table with status badges, links to offers                        | Medium   |
-| Application Modal  | Apply flow triggered from Offer Details                          | Medium   |
+| Task               | Description                                     | Priority |
+| ------------------ | ----------------------------------------------- | -------- |
+| Dashboard Redesign | ✅ Done                                         | High     |
+| Profile Builder    | Form for headline, skills, resume upload (mock) | High     |
+| My Applications    | Table with status badges, links to offers       | Medium   |
+| Application Modal  | Apply flow triggered from Offer Details         | Medium   |
 
 ---
