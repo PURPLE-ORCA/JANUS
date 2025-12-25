@@ -30,6 +30,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('candidate-profile', function () {
         return Inertia::render('profile/edit');
     })->name('candidate-profile');
+
+    Route::get('my-applications', function () {
+        return Inertia::render('applications/index');
+    })->name('applications.index');
 });
 
 require __DIR__.'/settings.php';
