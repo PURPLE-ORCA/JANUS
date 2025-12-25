@@ -45,8 +45,12 @@ export default function ApplicationsIndex() {
                 return 'bg-green-500 hover:bg-green-600';
             case 'shortlisted':
                 return 'bg-violet-500 hover:bg-violet-600';
+            case 'interview':
+                return 'bg-indigo-500 hover:bg-indigo-600';
             case 'rejected':
                 return 'bg-red-500 hover:bg-red-600';
+            case 'withdrawn':
+                return 'bg-neutral-400 hover:bg-neutral-500';
             case 'viewed':
                 return 'bg-blue-500 hover:bg-blue-600';
             case 'new':

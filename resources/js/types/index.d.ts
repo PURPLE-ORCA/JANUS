@@ -55,8 +55,10 @@ export type ApplicationStatus =
     | 'new'
     | 'viewed'
     | 'shortlisted'
+    | 'interview'
     | 'rejected'
-    | 'hired';
+    | 'hired'
+    | 'withdrawn';
 
 export interface Profile {
     id: number;

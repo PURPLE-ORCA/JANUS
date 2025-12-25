@@ -1,38 +1,272 @@
 [
     {
         "id": 1,
-        "user_id": 2,
+        "user_id": 1,
         "offer_id": 1,
         "status": "shortlisted",
-        "cover_note": "I'm very excited about this opportunity! I have 6 years of React experience and have led frontend teams at two startups.",
+        "cover_note": "I'm very excited about this Senior React Developer opportunity! I have 6 years of React experience and have led frontend teams at two startups.",
         "created_at": "2024-12-05T10:30:00Z",
         "updated_at": "2024-12-10T14:00:00Z"
     },
     {
         "id": 2,
-        "user_id": 2,
-        "offer_id": 3,
+        "user_id": 1,
+        "offer_id": 2,
         "status": "new",
-        "cover_note": "While I'm primarily a developer, I have a strong eye for design and would love to transition into this role.",
-        "created_at": "2024-12-18T09:00:00Z",
-        "updated_at": "2024-12-18T09:00:00Z"
+        "cover_note": "I'm eager to transition into DevOps and believe my strong programming background will help me excel in this role.",
+        "created_at": "2024-12-22T09:00:00Z",
+        "updated_at": "2024-12-22T09:00:00Z"
     },
     {
         "id": 3,
-        "user_id": 3,
-        "offer_id": 2,
+        "user_id": 1,
+        "offer_id": 3,
         "status": "viewed",
-        "cover_note": "I've been working with Kubernetes and AWS for 4 years and am passionate about infrastructure automation.",
-        "created_at": "2024-12-12T11:00:00Z",
-        "updated_at": "2024-12-15T16:00:00Z"
+        "cover_note": "While I'm primarily a developer, I have a strong eye for design and would love to explore this UI/UX opportunity.",
+        "created_at": "2024-12-18T09:00:00Z",
+        "updated_at": "2024-12-20T11:00:00Z"
     },
     {
         "id": 4,
+        "user_id": 1,
+        "offer_id": 4,
+        "status": "interview",
+        "cover_note": "I'd love to contribute content for your tech blog. Writing is my passion!",
+        "created_at": "2024-12-10T14:00:00Z",
+        "updated_at": "2024-12-21T16:30:00Z"
+    },
+    {
+        "id": 5,
+        "user_id": 1,
+        "offer_id": 5,
+        "status": "hired",
+        "cover_note": "React Native is my specialty. I've shipped multiple apps on both stores.",
+        "created_at": "2024-11-15T08:00:00Z",
+        "updated_at": "2024-12-15T10:00:00Z"
+    },
+    {
+        "id": 6,
+        "user_id": 1,
+        "offer_id": 6,
+        "status": "rejected",
+        "cover_note": "Looking to start my backend development career with your team.",
+        "created_at": "2024-10-20T11:00:00Z",
+        "updated_at": "2024-11-25T09:00:00Z"
+    },
+    {
+        "id": 7,
+        "user_id": 1,
+        "offer_id": 7,
+        "status": "withdrawn",
+        "cover_note": "Initially applied but found another opportunity.",
+        "created_at": "2024-09-01T10:00:00Z",
+        "updated_at": "2024-09-15T10:00:00Z"
+    },
+    {
+        "id": 8,
+        "user_id": 1,
+        "offer_id": 8,
+        "status": "new",
+        "cover_note": "Product management is where I want to grow my career. Let's talk!",
+        "created_at": "2024-12-24T15:00:00Z",
+        "updated_at": "2024-12-24T15:00:00Z"
+    },
+    {
+        "id": 9,
+        "user_id": 1,
+        "offer_id": 9,
+        "status": "viewed",
+        "cover_note": "I have extensive QA experience and would love to automate your testing.",
+        "created_at": "2024-12-23T10:00:00Z",
+        "updated_at": "2024-12-24T09:00:00Z"
+    },
+    {
+        "id": 10,
+        "user_id": 1,
+        "offer_id": 12,
+        "status": "shortlisted",
+        "cover_note": "Laravel is my framework of choice. I've built several enterprise applications with it.",
+        "created_at": "2024-12-23T14:00:00Z",
+        "updated_at": "2024-12-25T10:00:00Z"
+    },
+    {
+        "id": 11,
+        "user_id": 2,
+        "offer_id": 1,
+        "status": "shortlisted",
+        "cover_note": "I'm very excited about this opportunity! I have 6 years of React experience and have led frontend teams.",
+        "created_at": "2024-12-05T10:30:00Z",
+        "updated_at": "2024-12-10T14:00:00Z"
+    },
+    {
+        "id": 12,
+        "user_id": 2,
+        "offer_id": 3,
+        "status": "interview",
+        "cover_note": "While I'm primarily a developer, I have a strong eye for design and would love to transition.",
+        "created_at": "2024-12-18T09:00:00Z",
+        "updated_at": "2024-12-22T11:00:00Z"
+    },
+    {
+        "id": 13,
+        "user_id": 3,
+        "offer_id": 2,
+        "status": "hired",
+        "cover_note": "I've been working with Kubernetes and AWS for 4 years and am passionate about infrastructure automation.",
+        "created_at": "2024-12-12T11:00:00Z",
+        "updated_at": "2024-12-20T16:00:00Z"
+    },
+    {
+        "id": 14,
         "user_id": 3,
         "offer_id": 1,
         "status": "rejected",
         "cover_note": "Looking to expand my skills from DevOps into full-stack development.",
         "created_at": "2024-12-08T08:00:00Z",
         "updated_at": "2024-12-12T10:00:00Z"
+    },
+    {
+        "id": 15,
+        "user_id": 4,
+        "offer_id": 11,
+        "status": "new",
+        "cover_note": "I'm a recent graduate eager to learn and grow as a developer.",
+        "created_at": "2024-12-23T15:00:00Z",
+        "updated_at": "2024-12-23T15:00:00Z"
+    },
+    {
+        "id": 16,
+        "user_id": 5,
+        "offer_id": 5,
+        "status": "interview",
+        "cover_note": "Built several mobile apps with React Native and Flutter.",
+        "created_at": "2024-12-19T10:00:00Z",
+        "updated_at": "2024-12-23T09:00:00Z"
+    },
+    {
+        "id": 17,
+        "user_id": 7,
+        "offer_id": 3,
+        "status": "shortlisted",
+        "cover_note": "UI/UX is my calling. Check out my portfolio for my design work.",
+        "created_at": "2024-12-15T09:00:00Z",
+        "updated_at": "2024-12-20T14:00:00Z"
+    },
+    {
+        "id": 18,
+        "user_id": 7,
+        "offer_id": 14,
+        "status": "new",
+        "cover_note": "I'd love to contribute my design skills to your marketing materials.",
+        "created_at": "2024-12-24T08:00:00Z",
+        "updated_at": "2024-12-24T08:00:00Z"
+    },
+    {
+        "id": 19,
+        "user_id": 8,
+        "offer_id": 7,
+        "status": "interview",
+        "cover_note": "Data science is my expertise. I've built ML models for e-commerce recommendations.",
+        "created_at": "2024-12-10T09:00:00Z",
+        "updated_at": "2024-12-22T11:00:00Z"
+    },
+    {
+        "id": 20,
+        "user_id": 10,
+        "offer_id": 1,
+        "status": "viewed",
+        "cover_note": "Full-stack JavaScript is my specialty. React + Node.js is my daily stack.",
+        "created_at": "2024-12-20T10:00:00Z",
+        "updated_at": "2024-12-23T09:00:00Z"
+    },
+    {
+        "id": 21,
+        "user_id": 10,
+        "offer_id": 12,
+        "status": "new",
+        "cover_note": "While Node.js is my primary backend, I'm learning Laravel and would love this opportunity.",
+        "created_at": "2024-12-24T11:00:00Z",
+        "updated_at": "2024-12-24T11:00:00Z"
+    },
+    {
+        "id": 22,
+        "user_id": 11,
+        "offer_id": 2,
+        "status": "shortlisted",
+        "cover_note": "Go and Rust are my main languages. Infrastructure engineering is my passion.",
+        "created_at": "2024-12-18T09:00:00Z",
+        "updated_at": "2024-12-23T10:00:00Z"
+    },
+    {
+        "id": 23,
+        "user_id": 11,
+        "offer_id": 10,
+        "status": "interview",
+        "cover_note": "I have multiple cloud certifications and have designed architectures for Fortune 500 companies.",
+        "created_at": "2024-12-16T14:00:00Z",
+        "updated_at": "2024-12-24T15:00:00Z"
+    },
+    {
+        "id": 24,
+        "user_id": 14,
+        "offer_id": 9,
+        "status": "hired",
+        "cover_note": "Test automation is what I do best. Cypress and Playwright are my tools of choice.",
+        "created_at": "2024-12-01T09:00:00Z",
+        "updated_at": "2024-12-18T16:00:00Z"
+    },
+    {
+        "id": 25,
+        "user_id": 15,
+        "offer_id": 10,
+        "status": "shortlisted",
+        "cover_note": "Cloud architecture is my specialty. I hold AWS Solutions Architect Professional certification.",
+        "created_at": "2024-12-17T10:00:00Z",
+        "updated_at": "2024-12-24T11:00:00Z"
+    },
+    {
+        "id": 26,
+        "user_id": 15,
+        "offer_id": 2,
+        "status": "viewed",
+        "cover_note": "DevOps is closely related to my cloud architecture work. Happy to contribute here too.",
+        "created_at": "2024-12-22T08:00:00Z",
+        "updated_at": "2024-12-24T09:00:00Z"
+    },
+    {
+        "id": 27,
+        "user_id": 2,
+        "offer_id": 7,
+        "status": "withdrawn",
+        "cover_note": "Applied but decided to focus on frontend roles.",
+        "created_at": "2024-12-08T09:00:00Z",
+        "updated_at": "2024-12-15T10:00:00Z"
+    },
+    {
+        "id": 28,
+        "user_id": 8,
+        "offer_id": 8,
+        "status": "rejected",
+        "cover_note": "Would love to transition into product management.",
+        "created_at": "2024-12-09T10:00:00Z",
+        "updated_at": "2024-12-19T11:00:00Z"
+    },
+    {
+        "id": 29,
+        "user_id": 10,
+        "offer_id": 4,
+        "status": "interview",
+        "cover_note": "I love technical writing and have contributed to several open source projects.",
+        "created_at": "2024-12-17T09:00:00Z",
+        "updated_at": "2024-12-24T14:00:00Z"
+    },
+    {
+        "id": 30,
+        "user_id": 3,
+        "offer_id": 10,
+        "status": "new",
+        "cover_note": "Looking to take on more architectural responsibilities.",
+        "created_at": "2024-12-25T08:00:00Z",
+        "updated_at": "2024-12-25T08:00:00Z"
     }
 ]
