@@ -252,8 +252,8 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 
 - [x] Candidate dashboard with stats
 - [x] Profile builder/editor
-- [ ] My Applications page
-- [ ] Application modal/flow
+- [x] My Applications page
+- [x] Application modal/flow
 
 **Phase 4: Admin Dashboard**
 
@@ -437,15 +437,99 @@ resources/js/
 
 ---
 
+### Phase 3: Candidate Portal ✅ (Completed Dec 25, 2024)
+
+> **Last Updated**: December 25, 2024 8:14 PM - Phase 3 Complete
+
+#### Features Implemented
+
+| Component                | File(s)                                                                                               | Description                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Candidate Dashboard**  | `pages/dashboard.tsx`, `components/stat-card.tsx`                                                     | Welcome message, Stats grid (Total Applications, In Review, Shortlisted, Rejected), Recent Applications preview, Profile Strength widget with CTA |
+| **Profile Builder**      | `pages/profile/edit.tsx`, `pages/profile/partials/profile-form.tsx`, `components/ui/skills-input.tsx` | Editable headline, phone, LinkedIn. Animated skill tags with add/remove. Mock resume upload section                                               |
+| **My Applications Page** | `pages/applications/index.tsx`                                                                        | Full applications list with search, status filters (Active/Archived), metrics cards, color-coded status badges                                    |
+| **Application Modal**    | `pages/offers/partials/application-modal.tsx`                                                         | Dialog with applicant details, drag-and-drop resume upload, cover note textarea, loading/success states                                           |
+
+#### Mock Data Expansion
+
+| File                | Records | Coverage                                                                        |
+| ------------------- | ------- | ------------------------------------------------------------------------------- |
+| `users.json`        | 16      | Admin, Candidates (Active/Pending/Rejected)                                     |
+| `profiles.json`     | 15      | Complete, Partial (no resume), Empty                                            |
+| `offers.json`       | 15      | Full-time, Part-time, Freelance; Active & Closed                                |
+| `applications.json` | 30      | All 7 statuses: new, viewed, shortlisted, interview, rejected, hired, withdrawn |
+
+#### Problems Encountered & Solutions
+
+##### 1. `PageProps` Import Error in Profile Edit Page
+
+**Error**: `Module '@inertiajs/react' has no exported member 'PageProps'`
+
+**Cause**: Inertia's TypeScript types changed; `PageProps` is not directly exported.
+
+**Fix**: Define an inline interface for component props instead of importing `PageProps`.
+
 ---
 
-### What's Next: Phase 3 - Candidate Portal
+##### 2. Duplicate Route Declaration Conflict
 
-| Task               | Description                                     | Priority |
-| ------------------ | ----------------------------------------------- | -------- |
-| Dashboard Redesign | ✅ Done                                         | High     |
-| Profile Builder    | Form for headline, skills, resume upload (mock) | High     |
-| My Applications    | Table with status badges, links to offers       | Medium   |
-| Application Modal  | Apply flow triggered from Offer Details         | Medium   |
+**Error**: Babel parser error in `routes/profile/index.ts` due to duplicate `edit` export.
+
+**Cause**: Laravel Vite Wayfinder auto-generated a route that conflicted with our new profile edit route.
+
+**Fix**: Renamed the route from `/profile` to `/candidate-profile` to avoid conflict.
+
+---
+
+##### 3. Empty Applications List on My Applications Page
+
+**Error**: "No applications found" despite having mock data.
+
+**Cause**: Mock applications in `applications.json` had `user_id: 2` and `3`, but the logged-in user was `user_id: 1`.
+
+**Fix**: Expanded `applications.json` with entries for `user_id: 1` covering all statuses.
+
+---
+
+##### 4. Resume Upload Non-Functional
+
+**Error**: Clicking the upload area didn't open file explorer; drag-and-drop didn't work.
+
+**Cause**: The upload zone was just a styled `div` without an actual `<input type="file">` or event handlers.
+
+**Fix**: Added hidden file input with `htmlFor` label binding, plus `onDragOver` and `onDrop` handlers for drag-and-drop support.
+
+---
+
+#### Key Learnings
+
+1. **Inertia's `useForm` for Form State** - Handles form data, processing state, and reset without additional libraries. The `setData('field', value)` pattern is clean for controlled inputs.
+
+2. **Dialog State Pattern** - Using `useState` to control dialog visibility (`isOpen`/`onClose`) allows the parent component to trigger modals from anywhere (e.g., button click).
+
+3. **File Upload UX Best Practices**:
+    - Always pair a hidden `<input type="file">` with a styled `<label>` for click-to-upload.
+    - Add `onDragOver={(e) => e.preventDefault()}` to enable drop zones.
+    - Show file name and size immediately upon selection for user feedback.
+
+4. **Status Badge Color Mapping** - Using a switch/case function for status colors ensures consistency across the app and makes adding new statuses trivial.
+
+5. **Mock Data Strategy Evolution** - Initially minimal data was fine, but realistic testing required:
+    - Multiple users with different roles/statuses
+    - Applications for the logged-in user specifically
+    - All possible status values represented
+
+6. **Component Colocaation Convention** - Placing modal components in `pages/{entity}/partials/` keeps related code together without polluting the global components directory.
+
+---
+
+### What's Next: Phase 4 - Admin Dashboard
+
+| Task                    | Description                                            | Priority |
+| ----------------------- | ------------------------------------------------------ | -------- |
+| Admin Metrics Dashboard | Stats (pending users, active offers, new applications) | High     |
+| User Management         | Table with approve/reject actions for pending users    | High     |
+| Offers CRUD             | Create, Edit, Archive offers with TipTap rich editor   | Medium   |
+| Applications Review     | Drawer/Sheet for applicant details with status change  | Medium   |
 
 ---

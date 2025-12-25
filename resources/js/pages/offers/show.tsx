@@ -7,7 +7,17 @@ import GuestLayout from '@/layouts/guest-layout';
 import { register } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, CheckCircle2, Clock, DollarSign, MapPin, Share2 } from 'lucide-react';
+import {
+    ArrowLeft,
+    Calendar,
+    CheckCircle2,
+    Clock,
+    DollarSign,
+    MapPin,
+} from 'lucide-react';
+
+import { useState } from 'react';
+import ApplicationModal from './partials/application-modal';
 
 interface Props {
     slug: string;
@@ -16,14 +26,20 @@ interface Props {
 export default function OfferShow({ slug }: Props) {
     const offer = useOffer(slug);
     const { auth } = usePage<any>().props;
+    const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
 
     if (!offer) {
         return (
             <GuestLayout>
                 <div className="flex h-[50vh] flex-col items-center justify-center text-center">
                     <h1 className="text-4xl font-bold text-white">404</h1>
-                    <p className="mt-2 text-neutral-400">Transmission not found.</p>
-                    <Link href="/offers" className="mt-6 text-[#5617c2] hover:underline">
+                    <p className="mt-2 text-neutral-400">
+                        Transmission not found.
+                    </p>
+                    <Link
+                        href="/offers"
+                        className="mt-6 text-[#5617c2] hover:underline"
+                    >
                         Return to open frequencies
                     </Link>
                 </div>
@@ -34,13 +50,13 @@ export default function OfferShow({ slug }: Props) {
     return (
         <GuestLayout>
             <Head title={offer.title} />
-            
+
             <div className="pt-32 pb-20">
                 <div className="mx-auto max-w-7xl px-6">
                     {/* Back Link */}
                     <div className="mb-8">
-                        <Link 
-                            href="/offers" 
+                        <Link
+                            href="/offers"
                             className="group inline-flex items-center text-sm font-medium text-neutral-500 hover:text-white"
                         >
                             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -52,16 +68,22 @@ export default function OfferShow({ slug }: Props) {
                         {/* Main Content */}
                         <div className="lg:col-span-2">
                             {/* Header */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="mb-8"
                             >
                                 <div className="mb-4 flex flex-wrap gap-3">
-                                    <Badge variant="outline" className="border-[#5617c2] text-[#a374ff]">
+                                    <Badge
+                                        variant="outline"
+                                        className="border-[#5617c2] text-[#a374ff]"
+                                    >
                                         {offer.type}
                                     </Badge>
-                                    <Badge variant="outline" className="border-white/20 text-neutral-400">
+                                    <Badge
+                                        variant="outline"
+                                        className="border-white/20 text-neutral-400"
+                                    >
                                         Active Requisition
                                     </Badge>
                                 </div>
@@ -75,7 +97,10 @@ export default function OfferShow({ slug }: Props) {
                                     </div>
                                     <div className="flex items-center">
                                         <Clock className="mr-2 h-4 w-4" />
-                                        Posted {new Date(offer.created_at).toLocaleDateString()}
+                                        Posted{' '}
+                                        {new Date(
+                                            offer.created_at,
+                                        ).toLocaleDateString()}
                                     </div>
                                 </div>
                             </motion.div>
@@ -83,17 +108,19 @@ export default function OfferShow({ slug }: Props) {
                             <Separator className="my-8 bg-white/10" />
 
                             {/* Description (Rich Text) */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.2 }}
-                                className="prose prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-p:text-neutral-400 prose-li:text-neutral-400 prose-strong:text-white"
-                                dangerouslySetInnerHTML={{ __html: offer.description }}
+                                className="prose max-w-none prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-p:text-neutral-400 prose-strong:text-white prose-li:text-neutral-400"
+                                dangerouslySetInnerHTML={{
+                                    __html: offer.description,
+                                }}
                             />
                         </div>
 
                         {/* Sidebar */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.3 }}
@@ -102,7 +129,7 @@ export default function OfferShow({ slug }: Props) {
                             <Card className="border-white/10 bg-white/5 backdrop-blur-sm">
                                 <CardContent className="space-y-6 p-6">
                                     <div className="space-y-2">
-                                        <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-widest">
+                                        <h3 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
                                             Compensation
                                         </h3>
                                         <div className="flex items-center text-2xl font-bold text-white">
@@ -110,31 +137,57 @@ export default function OfferShow({ slug }: Props) {
                                             {offer.salary_range || 'Negotiable'}
                                         </div>
                                     </div>
-                                    
+
                                     <div className="space-y-2">
-                                        <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-widest">
+                                        <h3 className="text-sm font-medium tracking-widest text-neutral-500 uppercase">
                                             Deadline
                                         </h3>
                                         <div className="flex items-center text-lg text-white">
                                             <Calendar className="mr-2 h-4 w-4 text-neutral-400" />
-                                            {new Date(offer.deadline).toLocaleDateString()}
+                                            {new Date(
+                                                offer.deadline,
+                                            ).toLocaleDateString()}
                                         </div>
                                     </div>
 
                                     <div className="pt-4">
                                         {auth.user ? (
-                                            <Button className="w-full bg-[#5617c2] h-12 text-lg font-bold hover:bg-[#4512a0]">
-                                                Apply Now
-                                            </Button>
+                                            <>
+                                                <Button
+                                                    onClick={() =>
+                                                        setIsApplicationModalOpen(
+                                                            true,
+                                                        )
+                                                    }
+                                                    className="h-12 w-full bg-[#5617c2] text-lg font-bold hover:bg-[#4512a0]"
+                                                >
+                                                    Apply Now
+                                                </Button>
+                                                <ApplicationModal
+                                                    offer={offer}
+                                                    user={auth.user}
+                                                    isOpen={
+                                                        isApplicationModalOpen
+                                                    }
+                                                    onClose={() =>
+                                                        setIsApplicationModalOpen(
+                                                            false,
+                                                        )
+                                                    }
+                                                />
+                                            </>
                                         ) : (
-                                            <Link href={register()} className="w-full">
-                                                <Button className="w-full bg-white h-12 text-lg font-bold text-black hover:bg-neutral-200">
+                                            <Link
+                                                href={register()}
+                                                className="w-full"
+                                            >
+                                                <Button className="h-12 w-full bg-white text-lg font-bold text-black hover:bg-neutral-200">
                                                     Initialize Application
                                                 </Button>
                                             </Link>
                                         )}
                                         <p className="mt-3 text-center text-xs text-neutral-500">
-                                            {auth.user 
+                                            {auth.user
                                                 ? 'Your dossier is ready for submission.'
                                                 : 'Authentication required to proceed.'}
                                         </p>
@@ -150,15 +203,21 @@ export default function OfferShow({ slug }: Props) {
                                     <ul className="space-y-3 text-sm text-neutral-400">
                                         <li className="flex items-start">
                                             <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-[#5617c2]" />
-                                            <span>Direct line to hiring managers</span>
+                                            <span>
+                                                Direct line to hiring managers
+                                            </span>
                                         </li>
                                         <li className="flex items-start">
                                             <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-[#5617c2]" />
-                                            <span>Salary transparency verified</span>
+                                            <span>
+                                                Salary transparency verified
+                                            </span>
                                         </li>
                                         <li className="flex items-start">
                                             <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-[#5617c2]" />
-                                            <span>24/7 Application tracking</span>
+                                            <span>
+                                                24/7 Application tracking
+                                            </span>
                                         </li>
                                     </ul>
                                 </CardContent>
