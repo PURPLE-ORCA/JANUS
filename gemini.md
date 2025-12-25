@@ -246,7 +246,7 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 - [x] Shared `GuestLayout` (`guest-layout.tsx`)
 - [x] Offers listing (`/offers`)
 - [x] Offer detail (`/offers/:slug`)
-- [ ] Pending approval page
+- [x] Pending approval page
 
 **Phase 3: Candidate Portal**
 
@@ -294,5 +294,156 @@ resources/js/
     ├── applications/
     └── admin/
 ```
+
+---
+
+## Progress Log
+
+> **Last Updated**: December 25, 2024 8:00 PM - Phase 2 Complete
+
+### What We've Implemented
+
+#### Phase 1: Foundation & Data Layer ✅
+
+| Component         | File                     | Description                                                                  |
+| ----------------- | ------------------------ | ---------------------------------------------------------------------------- |
+| TypeScript Types  | `types/index.d.ts`       | Extended with `UserRole`, `UserStatus`, `Profile`, `Offer`, `Application`    |
+| Mock Users        | `data/users.json`        | Sample users with admin/candidate roles and pending/active/rejected statuses |
+| Mock Profiles     | `data/profiles.json`     | Candidate profiles with optional `resume_path` and `linkedin_url`            |
+| Mock Offers       | `data/offers.json`       | Job listings with HTML-rich descriptions, various types and locations        |
+| Mock Applications | `data/applications.json` | Application records linking users to offers                                  |
+| Data Hooks        | `hooks/use-mock-data.ts` | `useOffers`, `useOffer`, `useApplications`, `usePendingUsers`, `useMockRole` |
+
+#### Phase 2: Public Pages ✅
+
+| Page             | Route               | Key Features                                                             |
+| ---------------- | ------------------- | ------------------------------------------------------------------------ |
+| Landing Page     | `/`                 | Animated hero, live offers ticker, "The Protocol" section, `GuestLayout` |
+| Offers Listing   | `/offers`           | Real-time search/filter, responsive grid, `OfferCard` component          |
+| Offer Details    | `/offers/:slug`     | Rich text description, two-column layout, conditional "Apply" button     |
+| Pending Approval | `/approval-pending` | "Under review" messaging, logout functionality, animated shield icon     |
+
+#### Shared Components Created
+
+- **`GuestLayout`**: Reusable layout with glassmorphism Navbar, Footer, and NoiseOverlay
+- **`OfferCard`**: Industrial-styled job card with hover effects and sanitized description preview
+
+---
+
+### Decisions Made
+
+| Decision           | Choice                                     | Rationale                                                       |
+| ------------------ | ------------------------------------------ | --------------------------------------------------------------- |
+| Design Philosophy  | Minimalist Industrial (Black/White/Purple) | Aligns with "Velvet Rope" elite recruitment concept             |
+| Animation Library  | Framer Motion                              | React-first, lightweight, smooth entry animations               |
+| Typography Plugin  | `@tailwindcss/typography`                  | Required for rendering HTML job descriptions                    |
+| Type Definitions   | Union types over enums                     | `.d.ts` files cannot export runtime values; use string literals |
+| Mock Data Strategy | JSON files + hooks                         | Frontend-first development without backend dependency           |
+
+---
+
+### Problems Encountered & Solutions
+
+#### 1. TypeScript Enum in `.d.ts` File
+
+**Error**: `Could not load /resources/js/types` when importing `OfferType` as a value.
+
+**Cause**: Defined `OfferType` as an enum in `index.d.ts`, but `.d.ts` files are declaration-only and cannot export runtime values.
+
+**Fix**: Changed `OfferType` to a union type (`'full-time' | 'part-time' | 'freelance'`) and used string literals directly in components instead of `OfferType.FULL_TIME`.
+
+---
+
+#### 2. Raw HTML in OfferCard Description
+
+**Error**: Job descriptions displayed as `<h2>About the Role</h2>...` instead of formatted text.
+
+**Cause**: `offer.description` contains HTML markup from `offers.json`.
+
+**Fix**: For card previews, strip HTML tags using regex: `offer.description.replace(/<[^>]+>/g, '')`. For detail pages, use `dangerouslySetInnerHTML` with `@tailwindcss/typography` styles.
+
+---
+
+#### 3. Tailwind Typography Plugin Not Rendering
+
+**Error**: `prose` classes had no effect on the Offer Details page.
+
+**Cause**: `@tailwindcss/typography` was not installed or configured for Tailwind v4.
+
+**Fix**:
+
+1. Install: `bun add -D @tailwindcss/typography`
+2. Register in `app.css`: `@plugin "@tailwindcss/typography";`
+
+---
+
+#### 4. Tailwind v4 Syntax Lint Warnings
+
+**Warning**: `h-[800px]` should be `h-200`, `bg-gradient-to-r` should be `bg-linear-to-r`.
+
+**Cause**: Tailwind v4 uses new syntax for arbitrary values and gradients.
+
+**Fix**: Updated classes to v4 syntax (`h-200`, `w-75`, `bg-linear-to-r`).
+
+---
+
+#### 5. Avatar Null vs Undefined Type Mismatch
+
+**Error**: Type error when `user.avatar` is `null` (from JSON) but `AvatarImage` expects `string | undefined`.
+
+**Fix**: Convert null to undefined: `src={user.avatar ?? undefined}`.
+
+---
+
+### Key Learnings
+
+1. **`.d.ts` files are for types only** - Never define enums or const values that need runtime access. Use union types or move to a `.ts` file.
+
+2. **Tailwind v4 has breaking changes** - Arbitrary values have standard equivalents (e.g., `[800px]` → `200`), gradients use `bg-linear-*` instead of `bg-gradient-*`.
+
+3. **HTML content needs sanitization** - For previews, strip tags. For full display, use `dangerouslySetInnerHTML` with appropriate styling.
+
+4. **Plugins in Tailwind v4** - Use `@plugin "package-name"` syntax in CSS, not `tailwind.config.js`.
+
+5. **Frontend-first development** - Mock data hooks enable full UI development without backend; transition to real APIs later by swapping hook implementations.
+
+---
+
+### Instructions for Future Development
+
+> [!IMPORTANT]
+> **Before starting any new page:**
+>
+> 1. Check if required Shadcn components are installed
+> 2. Review `/docs/context/` for framework best practices
+> 3. Use CSS variables (`var(--purple)`, `var(--background)`)
+> 4. Keep files under 120 lines - extract components proactively
+
+> [!WARNING]
+> **Common Pitfalls to Avoid:**
+>
+> - Don't use enums in `.d.ts` files if you need runtime values
+> - Don't forget to sanitize HTML in card previews
+> - Don't use old Tailwind syntax (`bg-gradient-*`, arbitrary `[Xpx]`)
+> - Don't import types without `import type { ... }` if not using at runtime
+
+> [!TIP]
+> **Productivity Tips:**
+>
+> - `useMockRole()` hook enables testing different user experiences
+> - `GuestLayout` handles navbar/footer - just wrap content
+> - `OfferCard` is reusable for any listing context
+> - Run `bun run build` after major changes to catch type errors early
+
+---
+
+### What's Next: Phase 3 - Candidate Portal
+
+| Task               | Description                                                      | Priority |
+| ------------------ | ---------------------------------------------------------------- | -------- |
+| Dashboard Redesign | Replace placeholder with stats, recent applications, profile CTA | High     |
+| Profile Builder    | Form for headline, skills, resume upload (mock)                  | High     |
+| My Applications    | Table with status badges, links to offers                        | Medium   |
+| Application Modal  | Apply flow triggered from Offer Details                          | Medium   |
 
 ---

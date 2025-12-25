@@ -17,6 +17,10 @@ Route::get('/offers', function () {
 Route::get('/offers/{slug}', function ($slug) {
     return Inertia::render('offers/show', ['slug' => $slug]);
 })->name('offers.show');
+    
+Route::get('/approval-pending', function () {
+    return Inertia::render('approval-pending');
+})->name('approval.pending');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
