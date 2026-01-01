@@ -34,6 +34,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('my-applications', function () {
         return Inertia::render('applications/index');
     })->name('applications.index');
+
+    // Admin Routes
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('admin/index');
+        })->name('dashboard');
+
+        Route::get('/users', function () {
+            return Inertia::render('admin/users/index');
+        })->name('users.index');
+
+        Route::get('/offers', function () {
+            return Inertia::render('admin/offers/index');
+        })->name('offers.index');
+
+        Route::get('/applications', function () {
+            return Inertia::render('admin/applications/index');
+        })->name('applications.index');
+    });
 });
 
 require __DIR__.'/settings.php';
