@@ -49,6 +49,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('admin/offers/index');
         })->name('offers.index');
 
+        Route::get('/offers/create', function () {
+            return Inertia::render('admin/offers/create');
+        })->name('offers.create');
+
+        Route::get('/offers/{slug}/edit', function ($slug) {
+            return Inertia::render('admin/offers/edit', ['slug' => $slug]);
+        })->name('offers.edit');
+
         Route::get('/applications', function () {
             return Inertia::render('admin/applications/index');
         })->name('applications.index');

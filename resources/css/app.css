@@ -97,6 +97,7 @@
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
     --purple: #5617c2;
+    --purple-hover: #45129e;
 }
 
 .dark {
@@ -133,6 +134,7 @@
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
     --purple: #5617c2;
+    --purple-hover: #45129e;
 }
 
 @layer base {
