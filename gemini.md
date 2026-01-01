@@ -519,17 +519,77 @@ resources/js/
     - Applications for the logged-in user specifically
     - All possible status values represented
 
-6. **Component Colocaation Convention** - Placing modal components in `pages/{entity}/partials/` keeps related code together without polluting the global components directory.
+6. **Component Colocation Convention** - Placing modal components in `pages/{entity}/partials/` keeps related code together without polluting the global components directory.
 
 ---
 
-### What's Next: Phase 4 - Admin Dashboard
+#### Instructions for Future Development (Phase 3 Specific)
 
-| Task                    | Description                                            | Priority |
-| ----------------------- | ------------------------------------------------------ | -------- |
-| Admin Metrics Dashboard | Stats (pending users, active offers, new applications) | High     |
-| User Management         | Table with approve/reject actions for pending users    | High     |
-| Offers CRUD             | Create, Edit, Archive offers with TipTap rich editor   | Medium   |
-| Applications Review     | Drawer/Sheet for applicant details with status change  | Medium   |
+> [!IMPORTANT]
+> **Candidate Portal Patterns:**
+>
+> - Use `useCandidateStats()` and `useApplications()` hooks for data
+> - The `StatCard` component accepts `icon` (Iconify string), `label`, `value`, and optional `trend`
+> - Application status colors are defined in `getStatusColor()` function - extend it for new statuses
+> - Modal components live in `pages/{entity}/partials/` directory
+
+> [!WARNING]
+> **Common Pitfalls:**
+>
+> - `user.profile?.resume_path` may be `null` - always check before displaying
+> - Mock data `user_id` must match logged-in user for testing
+> - File inputs need `htmlFor` label binding + hidden input pattern for custom styling
+> - Always prevent default on `onDragOver` for drop zones to work
+
+> [!TIP]
+> **Reusable Components Created:**
+>
+> - `StatCard` - Dashboard metric cards with icons
+> - `SkillsInput` - Tag-based skill input with animations
+> - `ApplicationModal` - Full application flow with file upload
+> - Status badge color helper function in `applications/index.tsx`
+
+---
+
+### Phase 4: Admin Dashboard (In Progress)
+
+> **Last Updated**: January 1, 2026 1:45 PM - Admin Layout Complete
+
+#### Features Implemented
+
+| Component               | File(s)                              | Description                                                                                                          |
+| ----------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| **Admin Dashboard**     | `pages/admin/index.tsx`              | Stats grid (Pending Approvals, Active Offers, New Applications, Total Candidates), Quick Actions, Pending Users list |
+| **Role-Based Sidebar**  | `components/app-sidebar.tsx`         | Conditional navigation - admins see admin routes, candidates see candidate routes. Uses `useMockRole()` hook         |
+| **User Management**     | `pages/admin/users/index.tsx`        | Full data table with search, status filters (All/Pending/Active/Rejected), approve/reject actions                    |
+| **Offers Management**   | `pages/admin/offers/index.tsx`       | Placeholder page with "Coming Soon" UI                                                                               |
+| **Applications Review** | `pages/admin/applications/index.tsx` | Placeholder page with "Coming Soon" UI                                                                               |
+
+#### Admin Navigation Structure
+
+```
+/admin              → Admin Dashboard (metrics + quick actions)
+/admin/users        → User Management (approve/reject candidates)
+/admin/offers       → Offers CRUD (coming soon)
+/admin/applications → Applications Review (coming soon)
+```
+
+#### Key Patterns Established
+
+1. **Role-Based Navigation**: `useMockRole()` hook returns `isAdmin` boolean; sidebar conditionally renders `adminNavItems` or `candidateNavItems`.
+
+2. **Status Badge Helper**: `getStatusBadge()` function provides consistent badge styling for Pending (yellow), Active (green), Rejected (red).
+
+3. **Admin Page Layout**: All admin pages use `AppLayout` with breadcrumbs starting with `Admin > [Page Name]`.
+
+---
+
+### What's Next: Phase 4 - Remaining Work
+
+| Task                | Description                                           | Priority |
+| ------------------- | ----------------------------------------------------- | -------- |
+| Offers CRUD         | Create, Edit, Archive offers with TipTap rich editor  | High     |
+| Applications Review | Drawer/Sheet for applicant details with status change | High     |
+| User Actions        | Wire up Approve/Reject buttons with mock state        | Medium   |
 
 ---
