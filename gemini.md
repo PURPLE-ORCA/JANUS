@@ -586,11 +586,11 @@ resources/js/
 
 ### What's Next: Phase 4 - Remaining Work
 
-| Task                | Description                                                       | Priority |
-| ------------------- | ----------------------------------------------------------------- | -------- |
-| Offers CRUD         | **Complete** - Rich text editor, reusable form, create/edit pages | High     |
-| Applications Review | Drawer/Sheet for applicant details with status change             | High     |
-| User Actions        | Wire up Approve/Reject buttons with mock state                    | Medium   |
+| Task                | Description                                                          | Priority |
+| ------------------- | -------------------------------------------------------------------- | -------- |
+| Offers CRUD         | **Complete** - Rich text editor, reusable form, create/edit pages    | High     |
+| Applications Review | **Complete** - Drawer/Sheet for applicant details with status change | High     |
+| User Actions        | Wire up Approve/Reject buttons with mock state                       | Medium   |
 
 #### Offers CRUD Implementation Results
 
@@ -601,5 +601,14 @@ resources/js/
     - `admin/offers/create` - New offer page
     - `admin/offers/[slug]/edit` - Edit offer page
 - **Mock State**: Form submission mocks a network request and redirects.
+
+---
+
+#### Applications Review Implementation Results
+
+- **Grouped Layout**: Refactored list into **Accordions** grouped by Job Offer for better role-centric management.
+- **Drawer Component**: Created `ApplicationDetailsDrawer` side-sheet for viewing candidate details.
+- **Actions**: Added buttons for Shortlisting, Rejecting, and Marking as Viewed (simulated).
+- **Listing**: Displays candidate stats per offer.
 
 ---
