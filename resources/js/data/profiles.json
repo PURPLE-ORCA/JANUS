@@ -14,8 +14,53 @@
             "Docker"
         ],
         "linkedin_url": "https://linkedin.com/in/testuser",
+        "portfolio_url": "https://github.com/testuser",
+        "city": "Casablanca",
+        "country": "Morocco",
+        "date_of_birth": "1992-05-15",
+        "nationality": "Moroccan",
+        "years_of_experience": 7,
+        "expected_salary": "30k-40k MAD",
+        "availability": "1_month",
+        "education_level": "bac+5",
+        "has_driving_license": true,
         "created_at": "2024-01-10T09:00:00Z",
-        "updated_at": "2024-12-20T14:00:00Z"
+        "updated_at": "2024-12-20T14:00:00Z",
+        "education": [
+            {
+                "id": 1,
+                "institution": "ENSIAS - Rabat",
+                "degree": "Ingénieur d'État",
+                "field": "Computer Science",
+                "start_date": "2010-09-01",
+                "end_date": "2015-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 1,
+                "company": "TechVenture Morocco",
+                "title": "Senior Full-Stack Developer",
+                "description": "Leading development of SaaS products using React and Laravel",
+                "start_date": "2021-03-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "id": 2,
+                "company": "Digital Factory",
+                "title": "Full-Stack Developer",
+                "description": "Built e-commerce platforms and internal tools",
+                "start_date": "2017-06-01",
+                "end_date": "2021-02-28",
+                "is_current": false
+            }
+        ],
+        "languages": [
+            { "id": 1, "language": "Arabic", "proficiency": "native" },
+            { "id": 2, "language": "French", "proficiency": "fluent" },
+            { "id": 3, "language": "English", "proficiency": "fluent" }
+        ]
     },
     {
         "id": 2,
@@ -25,8 +70,44 @@
         "phone": "+212 661 234 567",
         "skills": ["React", "Vue.js", "TypeScript", "TailwindCSS", "Next.js"],
         "linkedin_url": "https://linkedin.com/in/sarahbenali",
+        "portfolio_url": "https://sarahbenali.dev",
+        "city": "Rabat",
+        "country": "Morocco",
+        "date_of_birth": "1995-08-22",
+        "nationality": "Moroccan",
+        "years_of_experience": 4,
+        "expected_salary": "20k-28k MAD",
+        "availability": "immediate",
+        "education_level": "bac+3",
+        "has_driving_license": true,
         "created_at": "2024-02-09T10:00:00Z",
-        "updated_at": "2024-11-15T16:00:00Z"
+        "updated_at": "2024-11-15T16:00:00Z",
+        "education": [
+            {
+                "id": 2,
+                "institution": "ENSA Marrakech",
+                "degree": "Licence",
+                "field": "Software Engineering",
+                "start_date": "2013-09-01",
+                "end_date": "2016-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 3,
+                "company": "WebStudio Casablanca",
+                "title": "Frontend Developer",
+                "description": "Developing responsive web applications with React",
+                "start_date": "2020-01-15",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 4, "language": "Arabic", "proficiency": "native" },
+            { "id": 5, "language": "French", "proficiency": "fluent" },
+            { "id": 6, "language": "English", "proficiency": "intermediate" }
+        ]
     },
     {
         "id": 3,
@@ -43,8 +124,53 @@
             "Linux"
         ],
         "linkedin_url": "https://linkedin.com/in/youssefamrani",
+        "portfolio_url": null,
+        "city": "Casablanca",
+        "country": "Morocco",
+        "date_of_birth": "1990-03-10",
+        "nationality": "Moroccan",
+        "years_of_experience": 8,
+        "expected_salary": "35k-45k MAD",
+        "availability": "negotiable",
+        "education_level": "bac+5",
+        "has_driving_license": true,
         "created_at": "2024-03-02T09:00:00Z",
-        "updated_at": "2024-10-20T10:00:00Z"
+        "updated_at": "2024-10-20T10:00:00Z",
+        "education": [
+            {
+                "id": 3,
+                "institution": "EMI - Rabat",
+                "degree": "Ingénieur d'État",
+                "field": "Networks & Systems",
+                "start_date": "2008-09-01",
+                "end_date": "2013-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 4,
+                "company": "CloudFirst Africa",
+                "title": "Senior DevOps Engineer",
+                "description": "Managing cloud infrastructure for enterprise clients",
+                "start_date": "2019-06-01",
+                "end_date": null,
+                "is_current": true
+            },
+            {
+                "id": 5,
+                "company": "OCP Group",
+                "title": "System Administrator",
+                "description": "Managed on-premise servers and network infrastructure",
+                "start_date": "2013-09-01",
+                "end_date": "2019-05-31",
+                "is_current": false
+            }
+        ],
+        "languages": [
+            { "id": 7, "language": "Arabic", "proficiency": "native" },
+            { "id": 8, "language": "French", "proficiency": "fluent" },
+            { "id": 9, "language": "English", "proficiency": "fluent" }
+        ]
     },
     {
         "id": 4,
@@ -54,8 +180,33 @@
         "phone": "+212 663 456 789",
         "skills": ["HTML", "CSS", "JavaScript", "PHP"],
         "linkedin_url": null,
+        "portfolio_url": null,
+        "city": "Tanger",
+        "country": "Morocco",
+        "date_of_birth": "2000-11-05",
+        "nationality": "Moroccan",
+        "years_of_experience": 1,
+        "expected_salary": "8k-12k MAD",
+        "availability": "immediate",
+        "education_level": "bac+2",
+        "has_driving_license": false,
         "created_at": "2024-12-20T17:00:00Z",
-        "updated_at": "2024-12-20T17:00:00Z"
+        "updated_at": "2024-12-20T17:00:00Z",
+        "education": [
+            {
+                "id": 4,
+                "institution": "OFPPT Tanger",
+                "degree": "Technicien Spécialisé",
+                "field": "Web Development",
+                "start_date": "2020-09-01",
+                "end_date": "2022-06-30"
+            }
+        ],
+        "experience": [],
+        "languages": [
+            { "id": 10, "language": "Arabic", "proficiency": "native" },
+            { "id": 11, "language": "French", "proficiency": "intermediate" }
+        ]
     },
     {
         "id": 5,
@@ -65,8 +216,44 @@
         "phone": "+212 664 567 890",
         "skills": ["React Native", "Flutter", "Swift", "Kotlin"],
         "linkedin_url": "https://linkedin.com/in/karimtazi",
+        "portfolio_url": "https://karimtazi.com",
+        "city": "Marrakech",
+        "country": "Morocco",
+        "date_of_birth": "1994-07-18",
+        "nationality": "Moroccan",
+        "years_of_experience": 5,
+        "expected_salary": "25k-32k MAD",
+        "availability": "1_week",
+        "education_level": "bac+5",
+        "has_driving_license": true,
         "created_at": "2024-12-22T10:00:00Z",
-        "updated_at": "2024-12-22T10:00:00Z"
+        "updated_at": "2024-12-22T10:00:00Z",
+        "education": [
+            {
+                "id": 5,
+                "institution": "UIR - Rabat",
+                "degree": "Master",
+                "field": "Mobile Computing",
+                "start_date": "2016-09-01",
+                "end_date": "2018-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 6,
+                "company": "AppFactory Maroc",
+                "title": "Mobile Developer",
+                "description": "Building cross-platform mobile applications",
+                "start_date": "2018-09-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 12, "language": "Arabic", "proficiency": "native" },
+            { "id": 13, "language": "French", "proficiency": "fluent" },
+            { "id": 14, "language": "English", "proficiency": "fluent" }
+        ]
     },
     {
         "id": 6,
@@ -76,8 +263,44 @@
         "phone": "+212 665 678 901",
         "skills": ["Python", "Django", "FastAPI", "PostgreSQL", "Redis"],
         "linkedin_url": "https://linkedin.com/in/leilachraibi",
+        "portfolio_url": "https://github.com/leilachraibi",
+        "city": "Casablanca",
+        "country": "Morocco",
+        "date_of_birth": "1993-02-28",
+        "nationality": "Moroccan",
+        "years_of_experience": 6,
+        "expected_salary": "28k-35k MAD",
+        "availability": "1_month",
+        "education_level": "bac+5",
+        "has_driving_license": true,
         "created_at": "2024-11-06T09:00:00Z",
-        "updated_at": "2024-11-12T14:00:00Z"
+        "updated_at": "2024-11-12T14:00:00Z",
+        "education": [
+            {
+                "id": 6,
+                "institution": "INPT - Rabat",
+                "degree": "Ingénieur d'État",
+                "field": "Software Engineering",
+                "start_date": "2011-09-01",
+                "end_date": "2016-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 7,
+                "company": "DataPulse Analytics",
+                "title": "Backend Developer",
+                "description": "Building data pipelines and APIs with Python",
+                "start_date": "2020-01-15",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 15, "language": "Arabic", "proficiency": "native" },
+            { "id": 16, "language": "French", "proficiency": "fluent" },
+            { "id": 17, "language": "English", "proficiency": "intermediate" }
+        ]
     },
     {
         "id": 7,
@@ -93,8 +316,44 @@
             "User Research"
         ],
         "linkedin_url": "https://linkedin.com/in/aminebouazza",
+        "portfolio_url": "https://dribbble.com/aminebouazza",
+        "city": "Casablanca",
+        "country": "Morocco",
+        "date_of_birth": "1996-09-12",
+        "nationality": "Moroccan",
+        "years_of_experience": 4,
+        "expected_salary": "22k-28k MAD",
+        "availability": "immediate",
+        "education_level": "bac+3",
+        "has_driving_license": false,
         "created_at": "2024-08-16T09:00:00Z",
-        "updated_at": "2024-12-10T11:00:00Z"
+        "updated_at": "2024-12-10T11:00:00Z",
+        "education": [
+            {
+                "id": 7,
+                "institution": "ESAV Marrakech",
+                "degree": "Licence",
+                "field": "Digital Design",
+                "start_date": "2014-09-01",
+                "end_date": "2017-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 8,
+                "company": "Atlas Digital Agency",
+                "title": "UI/UX Designer",
+                "description": "Designing user interfaces for web and mobile apps",
+                "start_date": "2019-03-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 18, "language": "Arabic", "proficiency": "native" },
+            { "id": 19, "language": "French", "proficiency": "fluent" },
+            { "id": 20, "language": "English", "proficiency": "intermediate" }
+        ]
     },
     {
         "id": 8,
@@ -111,8 +370,52 @@
             "Statistics"
         ],
         "linkedin_url": "https://linkedin.com/in/naimaelidrissi",
+        "portfolio_url": "https://kaggle.com/naimaelidrissi",
+        "city": "Rabat",
+        "country": "Morocco",
+        "date_of_birth": "1991-04-25",
+        "nationality": "Moroccan",
+        "years_of_experience": 7,
+        "expected_salary": "35k-45k MAD",
+        "availability": "negotiable",
+        "education_level": "phd",
+        "has_driving_license": true,
         "created_at": "2024-09-06T09:00:00Z",
-        "updated_at": "2024-11-25T15:00:00Z"
+        "updated_at": "2024-11-25T15:00:00Z",
+        "education": [
+            {
+                "id": 8,
+                "institution": "Mohammed V University",
+                "degree": "PhD",
+                "field": "Machine Learning",
+                "start_date": "2015-09-01",
+                "end_date": "2019-12-15"
+            },
+            {
+                "id": 9,
+                "institution": "ENSIAS - Rabat",
+                "degree": "Master",
+                "field": "Data Science",
+                "start_date": "2013-09-01",
+                "end_date": "2015-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 9,
+                "company": "DataPulse Analytics",
+                "title": "Lead Data Scientist",
+                "description": "Leading ML projects and data science team",
+                "start_date": "2020-01-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 21, "language": "Arabic", "proficiency": "native" },
+            { "id": 22, "language": "French", "proficiency": "fluent" },
+            { "id": 23, "language": "English", "proficiency": "fluent" }
+        ]
     },
     {
         "id": 9,
@@ -122,8 +425,43 @@
         "phone": "+212 668 901 234",
         "skills": ["Java", "Spring Boot", "Microservices"],
         "linkedin_url": null,
+        "portfolio_url": null,
+        "city": "Agadir",
+        "country": "Morocco",
+        "date_of_birth": "1998-12-03",
+        "nationality": "Moroccan",
+        "years_of_experience": 2,
+        "expected_salary": "15k-20k MAD",
+        "availability": "immediate",
+        "education_level": "bac+5",
+        "has_driving_license": false,
         "created_at": "2024-12-24T10:30:00Z",
-        "updated_at": "2024-12-24T10:30:00Z"
+        "updated_at": "2024-12-24T10:30:00Z",
+        "education": [
+            {
+                "id": 10,
+                "institution": "ENSA Agadir",
+                "degree": "Ingénieur d'État",
+                "field": "Computer Science",
+                "start_date": "2016-09-01",
+                "end_date": "2021-06-30"
+            }
+        ],
+        "experience": [
+            {
+                "id": 10,
+                "company": "Capgemini Morocco",
+                "title": "Junior Software Engineer",
+                "description": "Working on banking applications with Java",
+                "start_date": "2021-09-01",
+                "end_date": null,
+                "is_current": true
+            }
+        ],
+        "languages": [
+            { "id": 24, "language": "Arabic", "proficiency": "native" },
+            { "id": 25, "language": "French", "proficiency": "fluent" }
+        ]
     },
     {
         "id": 10,
@@ -133,81 +471,43 @@
         "phone": "+212 669 012 345",
         "skills": ["Node.js", "React", "MongoDB", "Express.js", "GraphQL"],
         "linkedin_url": "https://linkedin.com/in/zinebalaoui",
+        "portfolio_url": "https://zinebalaoui.dev",
+        "city": "Casablanca",
+        "country": "Morocco",
+        "date_of_birth": "1994-06-08",
+        "nationality": "Moroccan",
+        "years_of_experience": 5,
+        "expected_salary": "25k-32k MAD",
+        "availability": "1_week",
+        "education_level": "bac+5",
+        "has_driving_license": true,
         "created_at": "2024-07-11T09:00:00Z",
-        "updated_at": "2024-12-01T12:00:00Z"
-    },
-    {
-        "id": 11,
-        "user_id": 11,
-        "headline": "Senior Backend Engineer | Go & Rust",
-        "resume_path": "/storage/resumes/mehdi-rhaiti-resume.pdf",
-        "phone": "+212 670 123 456",
-        "skills": [
-            "Go",
-            "Rust",
-            "PostgreSQL",
-            "gRPC",
-            "Microservices",
-            "System Design"
+        "updated_at": "2024-12-01T12:00:00Z",
+        "education": [
+            {
+                "id": 11,
+                "institution": "EHTP Casablanca",
+                "degree": "Ingénieur d'État",
+                "field": "Computer Engineering",
+                "start_date": "2012-09-01",
+                "end_date": "2017-06-30"
+            }
         ],
-        "linkedin_url": "https://linkedin.com/in/mehdirhaiti",
-        "created_at": "2024-06-16T09:00:00Z",
-        "updated_at": "2024-11-30T10:00:00Z"
-    },
-    {
-        "id": 12,
-        "user_id": 12,
-        "headline": "Aspiring Developer",
-        "resume_path": null,
-        "phone": "+212 671 234 567",
-        "skills": ["HTML", "CSS", "JavaScript"],
-        "linkedin_url": null,
-        "created_at": "2024-12-25T08:30:00Z",
-        "updated_at": "2024-12-25T08:30:00Z"
-    },
-    {
-        "id": 13,
-        "user_id": 13,
-        "headline": "Technical Writer | Content Creator",
-        "resume_path": "/storage/resumes/hamza-kettani-cv.pdf",
-        "phone": "+212 672 345 678",
-        "skills": [
-            "Technical Writing",
-            "Documentation",
-            "SEO",
-            "Content Strategy"
+        "experience": [
+            {
+                "id": 11,
+                "company": "TechVenture Morocco",
+                "title": "Full-Stack Developer",
+                "description": "Building web applications with MERN stack",
+                "start_date": "2019-02-01",
+                "end_date": null,
+                "is_current": true
+            }
         ],
-        "linkedin_url": "https://linkedin.com/in/hamzakettani",
-        "created_at": "2024-10-02T09:00:00Z",
-        "updated_at": "2024-10-08T10:00:00Z"
-    },
-    {
-        "id": 14,
-        "user_id": 14,
-        "headline": "QA Engineer | Test Automation",
-        "resume_path": "/storage/resumes/imane-fassi-resume.pdf",
-        "phone": "+212 673 456 789",
-        "skills": ["Selenium", "Cypress", "Jest", "Playwright", "API Testing"],
-        "linkedin_url": "https://linkedin.com/in/imanefassi",
-        "created_at": "2024-05-06T09:00:00Z",
-        "updated_at": "2024-12-05T14:00:00Z"
-    },
-    {
-        "id": 15,
-        "user_id": 15,
-        "headline": "Cloud Architect | Solutions Designer",
-        "resume_path": "/storage/resumes/rachid-saidi-cv.pdf",
-        "phone": "+212 674 567 890",
-        "skills": [
-            "AWS",
-            "Azure",
-            "GCP",
-            "Terraform",
-            "Architecture",
-            "Security"
-        ],
-        "linkedin_url": "https://linkedin.com/in/rachidsaidi",
-        "created_at": "2024-04-11T09:00:00Z",
-        "updated_at": "2024-11-20T16:00:00Z"
+        "languages": [
+            { "id": 26, "language": "Arabic", "proficiency": "native" },
+            { "id": 27, "language": "French", "proficiency": "fluent" },
+            { "id": 28, "language": "English", "proficiency": "fluent" }
+        ]
     }
 ]

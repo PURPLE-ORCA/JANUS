@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "name": "TechVenture Morocco",
+        "logo_path": "/storage/companies/techventure-logo.png",
+        "website_url": "https://techventure.ma",
+        "sector": "tech",
+        "description": "Leading software development company specializing in web and mobile applications. We build innovative solutions for startups and enterprises across Africa and Europe.",
+        "city": "Casablanca",
+        "is_verified": true,
+        "created_at": "2024-06-15T09:00:00Z",
+        "updated_at": "2024-12-01T10:00:00Z"
+    },
+    {
+        "id": 2,
+        "name": "FinScale Solutions",
+        "logo_path": "/storage/companies/finscale-logo.png",
+        "website_url": "https://finscale.ma",
+        "sector": "finance",
+        "description": "Digital banking and fintech solutions provider. We help traditional banks modernize their infrastructure and launch digital-first products.",
+        "city": "Casablanca",
+        "is_verified": true,
+        "created_at": "2024-03-20T09:00:00Z",
+        "updated_at": "2024-11-15T14:00:00Z"
+    },
+    {
+        "id": 3,
+        "name": "MedConnect Health",
+        "logo_path": "/storage/companies/medconnect-logo.png",
+        "website_url": "https://medconnect.ma",
+        "sector": "healthcare",
+        "description": "Healthcare technology company focused on telemedicine and patient management systems. Connecting patients with doctors across Morocco.",
+        "city": "Rabat",
+        "is_verified": true,
+        "created_at": "2024-05-10T09:00:00Z",
+        "updated_at": "2024-10-20T11:00:00Z"
+    },
+    {
+        "id": 4,
+        "name": "CloudFirst Africa",
+        "logo_path": "/storage/companies/cloudfirst-logo.png",
+        "website_url": "https://cloudfirst.africa",
+        "sector": "tech",
+        "description": "Cloud infrastructure and DevOps consulting firm. We help companies migrate to the cloud and optimize their infrastructure costs.",
+        "city": "Casablanca",
+        "is_verified": true,
+        "created_at": "2024-01-15T09:00:00Z",
+        "updated_at": "2024-12-10T09:00:00Z"
+    },
+    {
+        "id": 5,
+        "name": "EduNext Academy",
+        "logo_path": "/storage/companies/edunext-logo.png",
+        "website_url": "https://edunext.ma",
+        "sector": "education",
+        "description": "E-learning platform and corporate training solutions. Empowering professionals with cutting-edge skills for the digital economy.",
+        "city": "Marrakech",
+        "is_verified": false,
+        "created_at": "2024-08-05T09:00:00Z",
+        "updated_at": "2024-11-28T16:00:00Z"
+    },
+    {
+        "id": 6,
+        "name": "RetailPro Maroc",
+        "logo_path": "/storage/companies/retailpro-logo.png",
+        "website_url": "https://retailpro.ma",
+        "sector": "retail",
+        "description": "Retail technology and e-commerce solutions. We power online stores and point-of-sale systems for Morocco's leading retailers.",
+        "city": "Tanger",
+        "is_verified": true,
+        "created_at": "2024-04-22T09:00:00Z",
+        "updated_at": "2024-09-15T10:00:00Z"
+    },
+    {
+        "id": 7,
+        "name": "DataPulse Analytics",
+        "logo_path": "/storage/companies/datapulse-logo.png",
+        "website_url": "https://datapulse.ma",
+        "sector": "tech",
+        "description": "Data science and AI consulting company. We transform raw data into actionable insights using machine learning and advanced analytics.",
+        "city": "Casablanca",
+        "is_verified": true,
+        "created_at": "2024-02-28T09:00:00Z",
+        "updated_at": "2024-12-05T12:00:00Z"
+    },
+    {
+        "id": 8,
+        "name": "ServiceHub SARL",
+        "logo_path": null,
+        "website_url": "https://servicehub.ma",
+        "sector": "services",
+        "description": "Business process outsourcing and customer service solutions. We provide multilingual support teams for international clients.",
+        "city": "Fes",
+        "is_verified": false,
+        "created_at": "2024-09-10T09:00:00Z",
+        "updated_at": "2024-12-01T08:00:00Z"
+    },
+    {
+        "id": 9,
+        "name": "GreenTech Innovations",
+        "logo_path": "/storage/companies/greentech-logo.png",
+        "website_url": "https://greentech.ma",
+        "sector": "other",
+        "description": "Sustainable technology and renewable energy solutions. Building a greener future through innovative clean-tech products.",
+        "city": "Agadir",
+        "is_verified": true,
+        "created_at": "2024-07-18T09:00:00Z",
+        "updated_at": "2024-11-30T15:00:00Z"
+    },
+    {
+        "id": 10,
+        "name": "Atlas Digital Agency",
+        "logo_path": "/storage/companies/atlasdigital-logo.png",
+        "website_url": "https://atlasdigital.ma",
+        "sector": "services",
+        "description": "Full-service digital marketing and web development agency. We create stunning digital experiences that drive business growth.",
+        "city": "Casablanca",
+        "is_verified": true,
+        "created_at": "2024-05-30T09:00:00Z",
+        "updated_at": "2024-12-08T11:00:00Z"
+    }
+]
