@@ -11,24 +11,48 @@ import {
 } from '@/components/ui/select';
 import { useOffers } from '@/hooks/use-mock-data';
 import GuestLayout from '@/layouts/guest-layout';
-import { type OfferType } from '@/types';
+import { type ExperienceLevel, type OfferType, type WorkMode } from '@/types';
 import { Head } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Flame, Search, X } from 'lucide-react';
 import { useState } from 'react';
 
 export default function OffersIndex() {
     const [search, setSearch] = useState('');
     const [type, setType] = useState<string>('all');
+    const [workMode, setWorkMode] = useState<string>('all');
+    const [experienceLevel, setExperienceLevel] = useState<string>('all');
+    const [showUrgentOnly, setShowUrgentOnly] = useState(false);
 
     // Derived filters for hook
     const filters = {
         search,
         type: type === 'all' ? undefined : (type as OfferType),
+        workMode: workMode === 'all' ? undefined : (workMode as WorkMode),
+        experienceLevel:
+            experienceLevel === 'all'
+                ? undefined
+                : (experienceLevel as ExperienceLevel),
+        isUrgent: showUrgentOnly || undefined,
         activeOnly: true,
     };
 
     const offers = useOffers(filters);
+
+    const hasActiveFilters =
+        search ||
+        type !== 'all' ||
+        workMode !== 'all' ||
+        experienceLevel !== 'all' ||
+        showUrgentOnly;
+
+    const clearFilters = () => {
+        setSearch('');
+        setType('all');
+        setWorkMode('all');
+        setExperienceLevel('all');
+        setShowUrgentOnly(false);
+    };
 
     return (
         <GuestLayout>
@@ -66,49 +90,136 @@ export default function OffersIndex() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="mb-12 flex flex-col gap-4 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm md:flex-row md:items-center"
+                        className="mb-8 space-y-4"
                     >
-                        <div className="relative flex-1">
-                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-500" />
-                            <Input
-                                placeholder="Search by keyword, role, or stack..."
-                                className="h-12 border-white/10 bg-black/50 pl-10 text-white placeholder:text-neutral-500 focus-visible:ring-[#5617c2]"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
+                        {/* Search & Primary Filters Row */}
+                        <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm md:flex-row md:items-center">
+                            <div className="relative flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-500" />
+                                <Input
+                                    placeholder="Search by keyword, role, or stack..."
+                                    className="h-12 border-white/10 bg-black/50 pl-10 text-white placeholder:text-neutral-500 focus-visible:ring-[#5617c2]"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="w-full md:w-48">
+                                <Select value={type} onValueChange={setType}>
+                                    <SelectTrigger className="h-12 border-white/10 bg-black/50 text-white focus:ring-[#5617c2]">
+                                        <SelectValue placeholder="Job Type" />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-white/10 bg-[#0a0a0a] text-white">
+                                        <SelectItem value="all">
+                                            All Types
+                                        </SelectItem>
+                                        <SelectItem value="full-time">
+                                            Full-time
+                                        </SelectItem>
+                                        <SelectItem value="part-time">
+                                            Part-time
+                                        </SelectItem>
+                                        <SelectItem value="freelance">
+                                            Freelance
+                                        </SelectItem>
+                                        <SelectItem value="internship">
+                                            Internship
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="w-full md:w-48">
+                                <Select
+                                    value={workMode}
+                                    onValueChange={setWorkMode}
+                                >
+                                    <SelectTrigger className="h-12 border-white/10 bg-black/50 text-white focus:ring-[#5617c2]">
+                                        <SelectValue placeholder="Work Mode" />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-white/10 bg-[#0a0a0a] text-white">
+                                        <SelectItem value="all">
+                                            All Modes
+                                        </SelectItem>
+                                        <SelectItem value="onsite">
+                                            On-site
+                                        </SelectItem>
+                                        <SelectItem value="remote">
+                                            Remote
+                                        </SelectItem>
+                                        <SelectItem value="hybrid">
+                                            Hybrid
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="w-full md:w-48">
+                                <Select
+                                    value={experienceLevel}
+                                    onValueChange={setExperienceLevel}
+                                >
+                                    <SelectTrigger className="h-12 border-white/10 bg-black/50 text-white focus:ring-[#5617c2]">
+                                        <SelectValue placeholder="Experience" />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-white/10 bg-[#0a0a0a] text-white">
+                                        <SelectItem value="all">
+                                            All Levels
+                                        </SelectItem>
+                                        <SelectItem value="junior">
+                                            Junior
+                                        </SelectItem>
+                                        <SelectItem value="mid">
+                                            Mid-level
+                                        </SelectItem>
+                                        <SelectItem value="senior">
+                                            Senior
+                                        </SelectItem>
+                                        <SelectItem value="lead">
+                                            Lead
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
-                        <div className="w-full md:w-64">
-                            <Select value={type} onValueChange={setType}>
-                                <SelectTrigger className="h-12 border-white/10 bg-black/50 text-white focus:ring-[#5617c2]">
-                                    <SelectValue placeholder="Contract Type" />
-                                </SelectTrigger>
-                                <SelectContent className="border-white/10 bg-[#0a0a0a] text-white">
-                                    <SelectItem value="all">
-                                        All Types
-                                    </SelectItem>
-                                    <SelectItem value="full-time">
-                                        Full Time
-                                    </SelectItem>
-                                    <SelectItem value="part-time">
-                                        Part Time
-                                    </SelectItem>
-                                    <SelectItem value="contract">
-                                        Contract
-                                    </SelectItem>
-                                    <SelectItem value="freelance">
-                                        Freelance
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+
+                        {/* Urgent Toggle & Clear Filters */}
+                        <div className="flex items-center justify-between">
+                            <Button
+                                variant={showUrgentOnly ? 'default' : 'outline'}
+                                size="sm"
+                                onClick={() =>
+                                    setShowUrgentOnly(!showUrgentOnly)
+                                }
+                                className={
+                                    showUrgentOnly
+                                        ? 'bg-red-500 text-white hover:bg-red-600'
+                                        : 'border-white/10 text-neutral-400 hover:bg-white/10 hover:text-white'
+                                }
+                            >
+                                <Flame className="mr-2 h-4 w-4" />
+                                Urgent Hiring Only
+                            </Button>
+
+                            {hasActiveFilters && (
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={clearFilters}
+                                    className="text-neutral-400 hover:text-white"
+                                >
+                                    <X className="mr-2 h-4 w-4" />
+                                    Clear Filters
+                                </Button>
+                            )}
                         </div>
-                        <Button
-                            variant="outline"
-                            className="h-12 border-white/10 text-white hover:bg-white/10"
-                        >
-                            <SlidersHorizontal className="mr-2 h-4 w-4" />
-                            More Filters
-                        </Button>
                     </motion.div>
+
+                    {/* Results Count */}
+                    <div className="mb-6 text-sm text-neutral-500">
+                        Showing {offers.length} position
+                        {offers.length !== 1 ? 's' : ''}
+                    </div>
 
                     {/* Grid */}
                     {offers.length > 0 ? (
@@ -118,7 +229,7 @@ export default function OffersIndex() {
                             ))}
                         </div>
                     ) : (
-                        <div className="flex min-h-400px flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/5 p-12 text-center">
+                        <div className="min-h-400px flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/5 p-12 text-center">
                             <div className="mb-4 rounded-full bg-white/5 p-4">
                                 <Search className="h-8 w-8 text-neutral-500" />
                             </div>
@@ -132,10 +243,7 @@ export default function OffersIndex() {
                             <Button
                                 variant="link"
                                 className="mt-4 text-[#5617c2]"
-                                onClick={() => {
-                                    setSearch('');
-                                    setType('all');
-                                }}
+                                onClick={clearFilters}
                             >
                                 Clear all filters
                             </Button>
