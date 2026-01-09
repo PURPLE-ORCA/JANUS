@@ -1,6 +1,7 @@
 import { StatCard } from '@/components/stat-card';
 import { Badge } from '@/components/ui/badge';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern'; // Keep for now as filler
+import { Button } from '@/components/ui/button';
+import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import {
     useApplications,
     useCandidateStats,
@@ -10,6 +11,7 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { BreadcrumbItem, SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { Building2, Calendar, ExternalLink } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,8 +36,12 @@ export default function Dashboard() {
         switch (status) {
             case 'hired':
                 return 'bg-green-500 hover:bg-green-600';
+            case 'offered':
+                return 'bg-emerald-500 hover:bg-emerald-600';
             case 'shortlisted':
                 return 'bg-violet-500 hover:bg-violet-600';
+            case 'interview':
+                return 'bg-indigo-500 hover:bg-indigo-600';
             case 'rejected':
                 return 'bg-red-500 hover:bg-red-600';
             case 'viewed':
@@ -45,6 +51,22 @@ export default function Dashboard() {
                 return 'bg-yellow-500 hover:bg-yellow-600';
         }
     };
+
+    const getStatusLabel = (status: string) => {
+        switch (status) {
+            case 'offered':
+                return 'Offer Received';
+            case 'interview':
+                return 'Interview';
+            default:
+                return status;
+        }
+    };
+
+    // Find upcoming interview
+    const upcomingInterview = applications.find(
+        (app) => app.interview_at && new Date(app.interview_at) > new Date(),
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -75,7 +97,8 @@ export default function Dashboard() {
                 {/* Candidate Dashboard */}
                 {isCandidate ? (
                     <>
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        {/* Stats Grid - Extended for v0.2 */}
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                             <StatCard
                                 label="Total Applications"
                                 value={stats.totalApplications}
@@ -93,11 +116,63 @@ export default function Dashboard() {
                                 icon="solar:star-bold"
                             />
                             <StatCard
-                                label="Rejected"
-                                value={stats.rejected}
-                                icon="solar:close-circle-bold"
+                                label="Interviews"
+                                value={stats.interviews}
+                                icon="solar:calendar-bold"
+                            />
+                            <StatCard
+                                label="Offers"
+                                value={stats.offered}
+                                icon="solar:diploma-bold"
                             />
                         </div>
+
+                        {/* Upcoming Interview Alert */}
+                        {upcomingInterview && (
+                            <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-4">
+                                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex size-10 items-center justify-center rounded-full bg-indigo-500/20">
+                                            <Calendar className="size-5 text-indigo-500" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground">
+                                                Upcoming Interview
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                {upcomingInterview.offer?.title}{' '}
+                                                at{' '}
+                                                {
+                                                    upcomingInterview.offer
+                                                        ?.company?.name
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Badge className="bg-indigo-500">
+                                            {new Date(
+                                                upcomingInterview.interview_at!,
+                                            ).toLocaleDateString('en-US', {
+                                                weekday: 'short',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            })}
+                                        </Badge>
+                                        <Link
+                                            href={`/offers/${upcomingInterview.offer?.slug}`}
+                                        >
+                                            <Button variant="outline" size="sm">
+                                                <ExternalLink className="mr-2 h-4 w-4" />
+                                                View Details
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         <div className="grid gap-6 md:grid-cols-7 lg:grid-cols-7">
                             {/* Recent Activity / Applications List */}
@@ -106,9 +181,12 @@ export default function Dashboard() {
                                     <h3 className="font-semibold text-foreground">
                                         Recent Applications
                                     </h3>
-                                    <span className="text-sm text-muted-foreground">
-                                        Last 30 days
-                                    </span>
+                                    <Link
+                                        href="/my-applications"
+                                        className="text-sm text-violet-600 hover:underline"
+                                    >
+                                        View all
+                                    </Link>
                                 </div>
 
                                 <div className="space-y-4">
@@ -121,14 +199,19 @@ export default function Dashboard() {
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div className="flex size-10 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800">
-                                                            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                                                                {app.offer?.title
-                                                                    .substring(
-                                                                        0,
-                                                                        2,
-                                                                    )
-                                                                    .toUpperCase()}
-                                                            </span>
+                                                            {app.offer
+                                                                ?.company ? (
+                                                                <Building2 className="size-4 text-neutral-600 dark:text-neutral-400" />
+                                                            ) : (
+                                                                <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                                                                    {app.offer?.title
+                                                                        .substring(
+                                                                            0,
+                                                                            2,
+                                                                        )
+                                                                        .toUpperCase()}
+                                                                </span>
+                                                            )}
                                                         </div>
                                                         <div>
                                                             <h4 className="text-sm font-medium text-foreground">
@@ -138,14 +221,22 @@ export default function Dashboard() {
                                                                 }
                                                             </h4>
                                                             <p className="text-xs text-muted-foreground">
+                                                                {app.offer
+                                                                    ?.company
+                                                                    ?.name && (
+                                                                    <>
+                                                                        {
+                                                                            app
+                                                                                .offer
+                                                                                .company
+                                                                                .name
+                                                                        }{' '}
+                                                                        •{' '}
+                                                                    </>
+                                                                )}
                                                                 {
                                                                     app.offer
                                                                         ?.location
-                                                                }{' '}
-                                                                •{' '}
-                                                                {
-                                                                    app.offer
-                                                                        ?.type
                                                                 }
                                                             </p>
                                                         </div>
@@ -156,7 +247,9 @@ export default function Dashboard() {
                                                                 app.status,
                                                             )}
                                                         >
-                                                            {app.status}
+                                                            {getStatusLabel(
+                                                                app.status,
+                                                            )}
                                                         </Badge>
                                                         <span className="hidden text-xs text-muted-foreground sm:inline-block">
                                                             {new Date(
@@ -193,14 +286,42 @@ export default function Dashboard() {
                                     </div>
                                     <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
                                         Your profile is 70% complete. Add your
-                                        LinkedIn URL to reach 100%.
+                                        work experience and education to reach
+                                        100%.
                                     </p>
                                     <Link
-                                        href="/candidate-profile"
+                                        href="/profile"
                                         className="block w-full rounded-lg bg-white py-2 text-center text-sm font-medium shadow-sm ring-1 ring-neutral-200 hover:bg-neutral-50 dark:bg-neutral-800 dark:ring-neutral-700 dark:hover:bg-neutral-700"
                                     >
                                         Complete Profile
                                     </Link>
+                                </div>
+
+                                {/* Quick Tips */}
+                                <div className="rounded-xl border border-sidebar-border/70 p-6 dark:border-sidebar-border">
+                                    <h3 className="mb-4 font-semibold text-foreground">
+                                        Quick Actions
+                                    </h3>
+                                    <div className="space-y-3">
+                                        <Link href="/offers">
+                                            <Button
+                                                variant="outline"
+                                                className="w-full justify-start"
+                                            >
+                                                <ExternalLink className="mr-2 h-4 w-4" />
+                                                Browse Open Positions
+                                            </Button>
+                                        </Link>
+                                        <Link href="/my-applications">
+                                            <Button
+                                                variant="outline"
+                                                className="w-full justify-start"
+                                            >
+                                                <Calendar className="mr-2 h-4 w-4" />
+                                                View All Applications
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
