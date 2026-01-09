@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // JANUS v0.2: Role-based access
+            $table->enum('role', ['admin', 'candidate'])->default('candidate');
+            // JANUS v0.2: Approval workflow
+            $table->enum('status', ['pending', 'active', 'rejected'])->default('pending');
+            // JANUS v0.2: Profile avatar
+            $table->string('avatar_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

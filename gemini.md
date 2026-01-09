@@ -1,12 +1,44 @@
-> Status: Planning Phase
+> Status: **v0.2 — The Pivot** 🔄
 >
 > > Deadline: 2026-01-20 (The clock is ticking)
-> > Stack: Laravel (Monolith/Inertia) + React + MySQL
+> > Stack: Laravel (Monolith/Inertia) + React + PostgreSQL
 > > Theme: Minimalist Industrial (Black/White/Purple)
 
 ---
 
 name meaning : Janus is the Roman god of **gates, doorways, and transitions**. He has two faces—one looking to the past (the candidate's resume) and one to the future (the job offer).
+
+---
+
+## 🔄 THE PIVOT: From Concept Art to Production Reality
+
+> **Date**: January 1, 2026
+> **Trigger**: Industry Analysis vs. Indeed, ReKrute.com, Emploi.ma
+> **Verdict**: Beautiful UI, but missing 60% of recruitment-standard data
+
+### Why We're Pivoting
+
+After completing Phases 1-4 (frontend UI), we conducted a critical analysis comparing JANUS to industry standards. The findings:
+
+| Criterion         | Score      | Problem                                              |
+| ----------------- | ---------- | ---------------------------------------------------- |
+| Visual Design     | ⭐⭐⭐⭐⭐ | None — it's exceptional                              |
+| Data Completeness | ⭐⭐       | **Critical gaps in schema**                          |
+| Morocco Standards | ⭐⭐       | Missing local norms (languages, Bac+X, city filters) |
+| Admin Workflows   | ⭐⭐⭐     | No pipeline view, no bulk actions                    |
+
+**The core issue**: We built a visually stunning frontend on top of an insufficient data model. If we wire the backend now, we'd ship an app that _looks_ professional but _functions_ like a toy.
+
+### The New Focus
+
+**Before**: "Make it look good" → **After**: "Make it work like ReKrute"
+
+We are pivoting to:
+
+1. **Extend the database schema** to industry standards
+2. **Add Morocco-specific fields** (languages, nationality, Bac+X education)
+3. **Professional vocabulary** (less "Velvet Rope", more practical HR language)
+4. **Recruiter workflows** (pipeline view, bulk actions, notes)
 
 ## 1. 🎯 The Objective
 
@@ -34,7 +66,25 @@ Since we are deploying on shared hosting (simple Git pull), we keep it tight.
 
 ---
 
-## 3. 💾 Database Schema (The Skeleton)
+## 3. 💾 Database Schema v0.2 (Industry Standard)
+
+> [!IMPORTANT]
+> This schema was revised on January 1, 2026 based on competitive analysis.
+> New fields are marked with 🆕. Morocco-specific fields are marked with 🇲🇦.
+
+### `companies` 🆕
+
+| **Column**    | **Type** | **Notes**                              |
+| ------------- | -------- | -------------------------------------- |
+| `id`          | BigInt   | PK                                     |
+| `name`        | String   | Company name                           |
+| `logo_path`   | String   | Nullable path to logo                  |
+| `website_url` | String   | Nullable                               |
+| `sector`      | Enum     | tech, finance, healthcare, retail, etc |
+| `description` | Text     | About the company                      |
+| `city`        | String   | 🇲🇦 Headquarters location               |
+| `is_verified` | Boolean  | Admin-verified company                 |
+| `created_at`  | DateTime |                                        |
 
 ### `users`
 
@@ -48,42 +98,119 @@ Since we are deploying on shared hosting (simple Git pull), we keep it tight.
 | `status`      | Enum     | `'pending'`, `'active'`, `'rejected'` (Default: `pending`) |
 | `avatar_path` | String   | Nullable                                                   |
 
-### `profiles` (Candidate Details)
+### `profiles` (Candidate Details) — EXTENDED
 
-| **Column**     | **Type** | **Notes**                                |
-| -------------- | -------- | ---------------------------------------- |
-| `id`           | BigInt   | PK                                       |
-| `user_id`      | BigInt   | FK to `users`                            |
-| `headline`     | String   | e.g., "Senior React Developer"           |
-| `resume_path`  | String   | Path to PDF storage                      |
-| `phone`        | String   | Contact info                             |
-| `skills`       | JSON     | e.g., `["Laravel", "React", "sleeping"]` |
-| `linkedin_url` | String   | Nullable                                 |
+| **Column**            | **Type** | **Notes**                                                 |
+| --------------------- | -------- | --------------------------------------------------------- |
+| `id`                  | BigInt   | PK                                                        |
+| `user_id`             | BigInt   | FK to `users`                                             |
+| `headline`            | String   | e.g., "Senior React Developer"                            |
+| `resume_path`         | String   | Path to PDF storage                                       |
+| `phone`               | String   | Contact info                                              |
+| `skills`              | JSON     | e.g., `["Laravel", "React"]`                              |
+| `linkedin_url`        | String   | Nullable                                                  |
+| `portfolio_url`       | String   | 🆕 Nullable                                               |
+| `city`                | String   | 🆕🇲🇦 e.g., "Casablanca"                                   |
+| `country`             | String   | 🆕 Default: "Morocco"                                     |
+| `date_of_birth`       | Date     | 🆕🇲🇦 Required for Moroccan norms                          |
+| `nationality`         | String   | 🆕🇲🇦 e.g., "Moroccan"                                     |
+| `years_of_experience` | Integer  | 🆕 Total years                                            |
+| `expected_salary`     | String   | 🆕 e.g., "25k-30k MAD"                                    |
+| `availability`        | Enum     | 🆕 `'immediate'`, `'1_week'`, `'1_month'`, `'negotiable'` |
+| `education_level`     | Enum     | 🆕🇲🇦 `'bac'`, `'bac+2'`, `'bac+3'`, `'bac+5'`, `'phd'`    |
+| `has_driving_license` | Boolean  | 🆕🇲🇦 Common requirement                                   |
 
-### `offers` (Job Listings)
+### `profile_education` 🆕
 
-| **Column**     | **Type** | **Notes**                                   |
-| -------------- | -------- | ------------------------------------------- |
-| `id`           | BigInt   | PK                                          |
-| `slug`         | String   | Unique for SEO friendly URLs                |
-| `title`        | String   | Job Title                                   |
-| `description`  | Text     | HTML/Markdown (Use a rich text editor)      |
-| `location`     | String   | City/Remote                                 |
-| `salary_range` | String   | Nullable (e.g., "10k - 15k MAD")            |
-| `type`         | Enum     | `'full-time'`, `'part-time'`, `'freelance'` |
-| `is_active`    | Boolean  | Default `true`                              |
-| `deadline`     | Date     | When the offer closes                       |
+| **Column**    | **Type** | **Notes**                    |
+| ------------- | -------- | ---------------------------- |
+| `id`          | BigInt   | PK                           |
+| `profile_id`  | BigInt   | FK to `profiles`             |
+| `institution` | String   | School/University name       |
+| `degree`      | String   | e.g., "Licence Informatique" |
+| `field`       | String   | e.g., "Computer Science"     |
+| `start_date`  | Date     |                              |
+| `end_date`    | Date     | Nullable (if current)        |
 
-### `applications`
+### `profile_experience` 🆕
 
-| **Column**   | **Type**  | **Notes**                                                     |
-| ------------ | --------- | ------------------------------------------------------------- |
-| `id`         | BigInt    | PK                                                            |
-| `user_id`    | BigInt    | FK to `users`                                                 |
-| `offer_id`   | BigInt    | FK to `offers`                                                |
-| `status`     | Enum      | `'new'`, `'viewed'`, `'shortlisted'`, `'rejected'`, `'hired'` |
-| `cover_note` | Text      | Short message from user                                       |
-| `created_at` | Timestamp | Application date                                              |
+| **Column**    | **Type** | **Notes**             |
+| ------------- | -------- | --------------------- |
+| `id`          | BigInt   | PK                    |
+| `profile_id`  | BigInt   | FK to `profiles`      |
+| `company`     | String   | Employer name         |
+| `title`       | String   | Job title             |
+| `description` | Text     | Responsibilities      |
+| `start_date`  | Date     |                       |
+| `end_date`    | Date     | Nullable (if current) |
+| `is_current`  | Boolean  | Still employed here   |
+
+### `profile_languages` 🆕
+
+| **Column**    | **Type** | **Notes**                                           |
+| ------------- | -------- | --------------------------------------------------- |
+| `id`          | BigInt   | PK                                                  |
+| `profile_id`  | BigInt   | FK to `profiles`                                    |
+| `language`    | String   | 🇲🇦 "French", "Arabic", "English", etc               |
+| `proficiency` | Enum     | `'basic'`, `'intermediate'`, `'fluent'`, `'native'` |
+
+### `offers` (Job Listings) — EXTENDED
+
+| **Column**           | **Type** | **Notes**                                                   |
+| -------------------- | -------- | ----------------------------------------------------------- |
+| `id`                 | BigInt   | PK                                                          |
+| `company_id`         | BigInt   | 🆕 FK to `companies`                                        |
+| `slug`               | String   | Unique for SEO friendly URLs                                |
+| `title`              | String   | Job Title                                                   |
+| `description`        | Text     | HTML/Markdown (Use a rich text editor)                      |
+| `location`           | String   | City/Remote                                                 |
+| `work_mode`          | Enum     | 🆕 `'onsite'`, `'remote'`, `'hybrid'`                       |
+| `salary_range`       | String   | Nullable (e.g., "10k - 15k MAD")                            |
+| `type`               | Enum     | `'full-time'`, `'part-time'`, `'freelance'`, `'internship'` |
+| `experience_level`   | Enum     | 🆕 `'junior'`, `'mid'`, `'senior'`, `'lead'`                |
+| `education_required` | Enum     | 🆕🇲🇦 `'none'`, `'bac'`, `'bac+2'`, `'bac+3'`, `'bac+5'`     |
+| `languages_required` | JSON     | 🆕 e.g., `["french", "english"]`                            |
+| `benefits`           | JSON     | 🆕 e.g., `["health_insurance", "remote_days"]`              |
+| `positions_count`    | Integer  | 🆕 Number of openings                                       |
+| `views_count`        | Integer  | 🆕 Analytics                                                |
+| `is_urgent`          | Boolean  | 🆕 "Urgently Hiring" badge                                  |
+| `is_active`          | Boolean  | Default `true`                                              |
+| `deadline`           | Date     | When the offer closes                                       |
+
+### `offer_screener_questions` 🆕
+
+| **Column**    | **Type** | **Notes**                              |
+| ------------- | -------- | -------------------------------------- |
+| `id`          | BigInt   | PK                                     |
+| `offer_id`    | BigInt   | FK to `offers`                         |
+| `question`    | String   | e.g., "Do you have a driving license?" |
+| `type`        | Enum     | `'yes_no'`, `'text'`, `'number'`       |
+| `is_required` | Boolean  | Must answer to apply                   |
+| `order`       | Integer  | Display order                          |
+
+### `applications` — EXTENDED
+
+| **Column**           | **Type**  | **Notes**                                                                                                |
+| -------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| `id`                 | BigInt    | PK                                                                                                       |
+| `user_id`            | BigInt    | FK to `users`                                                                                            |
+| `offer_id`           | BigInt    | FK to `offers`                                                                                           |
+| `status`             | Enum      | `'new'`, `'viewed'`, `'shortlisted'`, `'interview'`, `'offered'`, `'rejected'`, `'hired'`, `'withdrawn'` |
+| `cover_note`         | Text      | Short message from user                                                                                  |
+| `screener_responses` | JSON      | 🆕 Answers to screener questions                                                                         |
+| `rejection_reason`   | String    | 🆕 Nullable, filled when rejected                                                                        |
+| `interview_at`       | DateTime  | 🆕 Scheduled interview date                                                                              |
+| `created_at`         | Timestamp | Application date                                                                                         |
+
+### `application_notes` 🆕
+
+| **Column**       | **Type**  | **Notes**                 |
+| ---------------- | --------- | ------------------------- |
+| `id`             | BigInt    | PK                        |
+| `application_id` | BigInt    | FK to `applications`      |
+| `user_id`        | BigInt    | FK to `users` (recruiter) |
+| `note`           | Text      | Recruiter's internal note |
+| `created_at`     | Timestamp |                           |
 
 ---
 
@@ -164,6 +291,84 @@ Since we are limited by the environment:
 
 ---
 
+# SYSTEM ROLE & BEHAVIORAL PROTOCOLS
+
+**ROLE:** Elite Full-Stack Architect (Laravel + React).
+**STACK:** Laravel 12+ (API/Inertia), React 19.2+, TailwindCSS.
+**MISSION:** Build "Janus" (Recruitment Platform) with production-grade stability.
+
+## 1. OPERATIONAL DIRECTIVES (DEFAULT MODE)
+
+- **Zero Tolerance for Bloat:** If it can be done in 5 lines, don't write 10.
+- **Code First:** Don't explain the theory. Just fix the bug or build the feature.
+- **Strictly Typed:** PHP strict typing is mandatory (`declare(strict_types=1);`).
+- **Safety:** Always assume inputs are malicious.
+
+## 2. THE "DEEP_ARCHITECT" PROTOCOL (TRIGGER COMMAND)
+
+**TRIGGER:** When user prompts **"DEEP_ARCHITECT"**:
+
+- **Audit Mode:** Analyze for tight coupling, N+1 queries, and security risks.
+- **Refactor Mandate:** If the code works but breaks "Clean Code" principles, refactor it immediately.
+
+## 3. FRONTEND STANDARD (REACT)
+
+- **The 120-Line Rule:** Components > 120 lines are BANNED. Split them.
+- **No PHP in JS:** Never inject Blade variables into JS (e.g., `let x = {{ $data }}`).
+    - _Solution:_ Pass data via React Props or fetch via API. Use `data-attributes` only for simple DOM interactions.
+- **Component Purity:** UI components are dumb. Logic belongs in Custom Hooks (`useCandidateFilters`).
+
+## 4. BACKEND STANDARD (LARAVEL - THE GOLDEN RULES)
+
+### A. Architecture & Coupling
+
+- **Dependency Injection (IoC) ONLY:**
+    - **FORBIDDEN:** `$user = new User();` inside controllers/services. This creates tight coupling and kills testing.
+    - **REQUIRED:** Inject classes via the Constructor. Let the Service Container do the work.
+- **Controller Hygiene:**
+    - Controllers only handle: Request validation -> Call Service -> Return Response.
+    - No Business Logic in Controllers. Move it to `App\Services`.
+
+### B. Eloquent & Performance
+
+- **Memory Safety (Chunking):**
+    - **FORBIDDEN:** Using `all()` or `get()` on datasets that might grow (e.g., Candidates, Logs).
+    - **REQUIRED:** Use `chunk()`, `lazy()`, or `cursor()` to handle data in batches.
+- **Convention Over Configuration:**
+    - Adhere to naming standards (Table: `candidates`, Model: `Candidate`).
+    - Do not waste lines configuring `$table` or `$primaryKey` unless integrating with a legacy DB.
+
+### C. Syntactic Sugar & Modern PHP
+
+- **Write Less, Do More:**
+    - Use Helpers: `session('key')` instead of `Session::get('key')`.
+    - Use Helpers: `request('name')` instead of `$request->input('name')`.
+    - Use Helpers: `back()` instead of `Redirect::back()`.
+- **Eloquent Shortcuts:**
+    - Use `latest()` instead of `orderBy('created_at', 'desc')`.
+    - Use `compact('data')` instead of `with('data', $data)`.
+- **PHP 8+ Features:**
+    - Use Null Safe Operator: `$user->profile?->id` instead of `is_null` checks.
+    - Use Named Arguments when clarity is needed.
+
+## 5. DESIGN PHILOSOPHY: "PRAGMATIC CLEANLINESS"
+
+- **No Over-Engineering:** Don't build a Repository pattern for simple CRUD. Use Services.
+- **Naming:** Variables must be descriptive. `$c` is unacceptable. `$candidate` is perfect.
+
+## 6. RESPONSE FORMAT
+
+**IF NORMAL:**
+
+1.  **The Fix:** Optimized code block.
+2.  **The "Why":** A brief note on the specific Laravel rule applied (e.g., "Used `chunk()` to prevent memory overflow").
+
+**IF "DEEP_ARCHITECT" IS ACTIVE:**
+
+1.  **Code Audit:** Identify violations (Tight Coupling, Dirty JS injection, etc.).
+2.  **Refactoring:** The breakdown.
+3.  **The Code:** Production-ready solution.
+
 ## INSTRUCTIONS
 
 name: frontend-design
@@ -232,7 +437,14 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 > - **Install Before Use**: Ask to install needed Shadcn components before starting a new page
 > - **CSS Variables**: Always use `var(--background)`, `var(--purple)`, --foreground, etc.
 
-### Phases
+### Phases (v0.2 Transformation Plan)
+
+> [!NOTE]
+> Phases 1-4 are from the original plan (UI-first). Phases 5-8 are the v0.2 pivot.
+
+---
+
+#### ✅ COMPLETED (Pre-Pivot)
 
 **Phase 1: Foundation & Data Layer** ✅
 
@@ -240,7 +452,7 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 - [x] Mock JSON data files
 - [x] Data hooks (`useOffers`, `useApplications`, etc.)
 
-**Phase 2: Public Pages**
+**Phase 2: Public Pages** ✅
 
 - [x] Landing page redesign (`welcome.tsx`)
 - [x] Shared `GuestLayout` (`guest-layout.tsx`)
@@ -248,60 +460,173 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 - [x] Offer detail (`/offers/:slug`)
 - [x] Pending approval page
 
-**Phase 3: Candidate Portal**
+**Phase 3: Candidate Portal** ✅
 
 - [x] Candidate dashboard with stats
-- [x] Profile builder/editor
+- [x] Profile builder/editor (⚠️ needs v0.2 fields)
 - [x] My Applications page
-- [x] Application modal/flow
+- [x] Application modal/flow (⚠️ needs screener questions)
 
-**Phase 4: Admin Dashboard**
+**Phase 4: Admin Dashboard** ✅ (Partial)
 
-- [ ] Admin dashboard with metrics
-- [ ] User management (pending/active/rejected)
-- [ ] Offers CRUD
-- [ ] Applications review with drawer
+- [x] Admin dashboard with metrics
+- [x] User management (pending/active/rejected)
+- [x] Offers CRUD (⚠️ needs company link, new fields)
+- [x] Applications review with drawer (⚠️ needs notes, pipeline)
 
-**Phase 5: Shared Components**
+---
 
-- [ ] Status badges
-- [ ] Stat cards
-- [ ] Data table
-- [ ] Offer cards
-- [ ] Applicant detail sheet
+#### 🔄 IN PROGRESS (v0.2 Pivot)
 
-**Phase 6: Polish**
+**Phase 5: v0.2 Schema Transformation** 🎯 CURRENT
 
-- [ ] Responsive design verification
-- [ ] Navigation flows
-- [ ] Visual polish
+> Priority: **CRITICAL** — Must complete before backend wiring
 
-### File Structure (New)
+| Task                                             | Status | Notes                                |
+| ------------------------------------------------ | ------ | ------------------------------------ |
+| Create `Company` migration + model               | [ ]    | New entity for offers                |
+| Create `ProfileEducation` migration + model      | [ ]    | One-to-many from Profile             |
+| Create `ProfileExperience` migration + model     | [ ]    | One-to-many from Profile             |
+| Create `ProfileLanguage` migration + model       | [ ]    | One-to-many from Profile             |
+| Create `OfferScreenerQuestion` migration + model | [ ]    | Pre-screening questions              |
+| Create `ApplicationNote` migration + model       | [ ]    | Recruiter notes                      |
+| Extend `profiles` migration with new fields      | [ ]    | city, dob, nationality, etc.         |
+| Extend `offers` migration with new fields        | [ ]    | company_id, work_mode, etc.          |
+| Extend `applications` migration                  | [ ]    | screener_responses, rejection_reason |
+| Update TypeScript types (`types/index.d.ts`)     | [ ]    | Match new schema                     |
+| Update mock JSON data files                      | [ ]    | Add new fields with realistic data   |
+| Update mock data hooks                           | [ ]    | Support new relationships            |
+
+**Phase 5b: Frontend Schema Sync**
+
+| Task                                              | Status | Notes                               |
+| ------------------------------------------------- | ------ | ----------------------------------- |
+| Update `profile-form.tsx` with new fields         | [ ]    | Education, experience, languages    |
+| Add education/experience/language sub-forms       | [ ]    | Repeater pattern                    |
+| Update `OfferCard` with company info              | [ ]    | Logo, company name                  |
+| Add filters: experience level, work mode, sector  | [ ]    | On offers listing                   |
+| Update `ApplicationModal` with screener questions | [ ]    | Dynamic form                        |
+| Update admin offer form with new fields           | [ ]    | company selector, screener Q editor |
+
+---
+
+#### 🔜 NEXT (Post-Schema)
+
+**Phase 6: Backend Integration**
+
+| Task                                      | Priority | Notes                       |
+| ----------------------------------------- | -------- | --------------------------- |
+| Run migrations                            | High     | All new tables              |
+| Create Laravel models with relationships  | High     | Eloquent                    |
+| Create API controllers (Inertia-style)    | High     | Return props                |
+| Replace mock hooks with real Inertia data | High     | Remove `use-mock-data.ts`   |
+| File uploads (resume, company logo)       | High     | Storage driver              |
+| User approval workflow (email)            | Medium   | Queue                       |
+| CRUD controllers for admin                | Medium   | Offers, Users, Applications |
+
+**Phase 7: Recruiter Workflows**
+
+| Task                                   | Priority | Notes                       |
+| -------------------------------------- | -------- | --------------------------- |
+| Pipeline/Kanban view for applications  | High     | Drag-and-drop status change |
+| Bulk actions (approve/reject multiple) | High     | Checkbox + action bar       |
+| Application notes system               | Medium   | Recruiter comments          |
+| Interview scheduling                   | Medium   | Date picker + calendar      |
+| Email templates (rejection, invite)    | Low      | Template system             |
+| Export to CSV                          | Low      | Reporting                   |
+
+**Phase 8: Final Polish**
+
+| Task                                 | Priority | Notes                                       |
+| ------------------------------------ | -------- | ------------------------------------------- |
+| Language softening                   | High     | Remove "Velvet Rope" theatrics from UI copy |
+| Welcome page "For Employers" section | Medium   | Dual-sided landing                          |
+| Social proof (stats, testimonials)   | Low      | Marketing                                   |
+| PWA support                          | Low      | Mobile experience                           |
+| Dark mode polish                     | Low      | Already exists                              |
+
+---
+
+### Transformation Checklist
+
+```
+v0.2 Transformation Progress
+────────────────────────────
+[ ] Schema extended (migrations)
+[ ] Models created with relationships
+[ ] TypeScript types updated
+[ ] Mock data updated
+[ ] Frontend forms updated
+[ ] Backend controllers created
+[ ] Mock hooks replaced with real data
+[ ] Recruiter workflows implemented
+[ ] Language/copy softened
+────────────────────────────
+Target: Backend-ready by Jan 10, 2026
+Launch: Jan 20, 2026
+```
+
+### File Structure (v0.2)
 
 ```
 resources/js/
-├── data/               # Mock JSON
-├── hooks/use-mock-data.ts
+├── data/                     # Mock JSON (to be replaced)
+│   ├── companies.json        # 🆕
+│   ├── offers.json           # EXTENDED
+│   ├── profiles.json         # EXTENDED
+│   └── applications.json     # EXTENDED
+├── hooks/use-mock-data.ts    # → Will become use-data.ts (real)
 ├── components/
 │   ├── status-badge.tsx
 │   ├── stat-card.tsx
 │   ├── data-table.tsx
-│   └── offer-card.tsx
+│   ├── offer-card.tsx        # → Add company info
+│   ├── company-avatar.tsx    # 🆕
+│   ├── pipeline-board.tsx    # 🆕
+│   └── screener-form.tsx     # 🆕
 └── pages/
-    ├── approval-pending.tsx
     ├── offers/
+    │   └── partials/
+    │       └── application-modal.tsx  # → Add screener questions
     ├── profile/
-    ├── applications/
+    │   └── partials/
+    │       ├── profile-form.tsx       # → Add education/experience/languages
+    │       ├── education-form.tsx     # 🆕
+    │       ├── experience-form.tsx    # 🆕
+    │       └── languages-form.tsx     # 🆕
     └── admin/
+        ├── applications/
+        │   ├── index.tsx              # → Add pipeline view
+        │   └── partials/
+        │       ├── pipeline-board.tsx # 🆕
+        │       └── notes-panel.tsx    # 🆕
+        └── offers/
+            └── partials/
+                └── screener-editor.tsx # 🆕
 ```
 
 ---
 
 ## Progress Log
 
-> **Last Updated**: December 25, 2024 8:00 PM - Phase 2 Complete
+> **Last Updated**: January 1, 2026 — 🔄 v0.2 PIVOT INITIATED
+>
+> **Current Phase**: 5 (Schema Transformation)
+> **Status**: Extending database schema to industry standards
 
-### What We've Implemented
+### Historical Changelog
+
+#### 🔄 v0.2 Pivot (January 1, 2026)
+
+- Conducted competitive analysis vs. Indeed, ReKrute.com, Emploi.ma
+- Identified critical gaps in data model (missing 60% of industry-standard fields)
+- Pivoted from "backend wiring" to "schema extension first"
+- Updated phases 5-8 with transformation plan
+- Added new entities: `Company`, `ProfileEducation`, `ProfileExperience`, `ProfileLanguage`, `OfferScreenerQuestion`, `ApplicationNote`
+
+---
+
+### Pre-Pivot Implementation (Dec 2024)
 
 #### Phase 1: Foundation & Data Layer ✅
 
@@ -551,64 +876,78 @@ resources/js/
 
 ---
 
-### Phase 4: Admin Dashboard (In Progress)
+### Phase 4: Admin Dashboard (Complete)
 
-> **Last Updated**: January 1, 2026 1:45 PM - Admin Layout Complete
+> **Completed**: January 1, 2026 - Full Admin Dashboard Implementation
 
 #### Features Implemented
 
-| Component               | File(s)                              | Description                                                                                                          |
-| ----------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| **Admin Dashboard**     | `pages/admin/index.tsx`              | Stats grid (Pending Approvals, Active Offers, New Applications, Total Candidates), Quick Actions, Pending Users list |
-| **Role-Based Sidebar**  | `components/app-sidebar.tsx`         | Conditional navigation - admins see admin routes, candidates see candidate routes. Uses `useMockRole()` hook         |
-| **User Management**     | `pages/admin/users/index.tsx`        | Full data table with search, status filters (All/Pending/Active/Rejected), approve/reject actions                    |
-| **Offers Management**   | `pages/admin/offers/index.tsx`       | Placeholder page with "Coming Soon" UI                                                                               |
-| **Applications Review** | `pages/admin/applications/index.tsx` | Placeholder page with "Coming Soon" UI                                                                               |
+| Component               | File(s)                              | Description                                                                                         |
+| ----------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| **Admin Dashboard**     | `pages/admin/index.tsx`              | Stats grid (Pending Approvals, Active Offers, New Applications, Total Candidates), Quick Actions    |
+| **Role-Based Sidebar**  | `components/app-sidebar.tsx`         | Conditional navigation - admins see admin routes, candidates see candidate routes                   |
+| **User Management**     | `pages/admin/users/index.tsx`        | Full data table with search, status filters (All/Pending/Active/Rejected), approve/reject actions   |
+| **Offers CRUD**         | `pages/admin/offers/*`               | Create/Edit forms with Rich Text Editor (TipTap), slug auto-generation, data table with actions     |
+| **Applications Review** | `pages/admin/applications/*`         | Grouped Accordions by Job Offer, Candidate Drawer (Sheet), Status Actions (Shortlist/Reject/Viewed) |
+| **Rich Text Editor**    | `components/ui/rich-text-editor.tsx` | TipTap-based editor with toolbar (headings, bold, italic, lists, links, blockquote)                 |
 
 #### Admin Navigation Structure
 
 ```
-/admin              → Admin Dashboard (metrics + quick actions)
-/admin/users        → User Management (approve/reject candidates)
-/admin/offers       → Offers CRUD (coming soon)
-/admin/applications → Applications Review (coming soon)
+/admin                     → Admin Dashboard (metrics + quick actions)
+/admin/users               → User Management (approve/reject candidates)
+/admin/offers              → Offers List (table with actions)
+/admin/offers/create       → Create New Offer
+/admin/offers/{slug}/edit  → Edit Existing Offer
+/admin/applications        → Applications Review (grouped by offer)
 ```
 
-#### Key Patterns Established
+---
 
-1. **Role-Based Navigation**: `useMockRole()` hook returns `isAdmin` boolean; sidebar conditionally renders `adminNavItems` or `candidateNavItems`.
+#### Key Learnings
 
-2. **Status Badge Helper**: `getStatusBadge()` function provides consistent badge styling for Pending (yellow), Active (green), Rejected (red).
+1. **Role-Based Routing**: `useMockRole()` hook pattern allows easy toggling between admin/candidate views during development.
 
-3. **Admin Page Layout**: All admin pages use `AppLayout` with breadcrumbs starting with `Admin > [Page Name]`.
+2. **TipTap Integration**: Headless editor provides full control over styling. Use `@tailwindcss/typography` plugin for prose styling in the editor content.
+
+3. **Enterprise UX Patterns**:
+    - **Grouped Views**: Organizing data by context (e.g., applications by offer) reduces cognitive load.
+    - **Drawer/Sheet**: Side-sheet pattern (`Sheet` component) keeps users in context while viewing details.
+    - **Collapsible Accordions**: Radix `Collapsible` primitives work well for expandable sections.
+
+4. **Auto-Slug Generation**: Using `toLowerCase().replace(/ /g, '-')` on title change provides instant slug preview during form entry.
+
+5. **Status Badge Consistency**: Centralized `getStatusColor()` helper ensures uniform status styling across pages.
 
 ---
 
-### What's Next: Phase 4 - Remaining Work
+#### Instructions for Future Development (Phase 4 Specific)
 
-| Task                | Description                                                          | Priority |
-| ------------------- | -------------------------------------------------------------------- | -------- |
-| Offers CRUD         | **Complete** - Rich text editor, reusable form, create/edit pages    | High     |
-| Applications Review | **Complete** - Drawer/Sheet for applicant details with status change | High     |
-| User Actions        | Wire up Approve/Reject buttons with mock state                       | Medium   |
+> [!IMPORTANT]
+> **Admin Page Patterns:**
+>
+> - All admin pages use `AppLayout` with breadcrumbs starting with `Admin > [Page Name]`
+> - Use `useOffers()`, `useApplications()`, `useUsers()` hooks for mock data
+> - Forms should use local state with `useState` until backend is integrated
 
-#### Offers CRUD Implementation Results
-
-- **Rich Text Editor**: Integrated TipTap with a custom toolbar component (`rich-text-editor.tsx`).
-- **Reusable Form**: `OfferForm` component handles both Create and Edit modes with auto-slug generation.
-- **Pages**:
-    - `admin/offers/index` - Table view with actions
-    - `admin/offers/create` - New offer page
-    - `admin/offers/[slug]/edit` - Edit offer page
-- **Mock State**: Form submission mocks a network request and redirects.
+> [!TIP]
+> **Reusable Components Created:**
+>
+> - `RichTextEditor` - TipTap wrapper with toolbar
+> - `OfferForm` - Reusable for create/edit modes
+> - `ApplicationDetailsDrawer` - Sheet-based candidate viewer
+> - `StatCard` - Dashboard metric cards
 
 ---
 
-#### Applications Review Implementation Results
+### What's Next: Phase 5 - Backend Integration
 
-- **Grouped Layout**: Refactored list into **Accordions** grouped by Job Offer for better role-centric management.
-- **Drawer Component**: Created `ApplicationDetailsDrawer` side-sheet for viewing candidate details.
-- **Actions**: Added buttons for Shortlisting, Rejecting, and Marking as Viewed (simulated).
-- **Listing**: Displays candidate stats per offer.
+| Task                  | Description                                            | Priority |
+| --------------------- | ------------------------------------------------------ | -------- |
+| Offers API            | Create Laravel controllers for Offers CRUD             | High     |
+| Applications API      | Implement status update endpoints                      | High     |
+| User Approval API     | Wire up approve/reject buttons to backend              | High     |
+| Auth Role Middleware  | Protect admin routes with `role:admin` middleware      | Critical |
+| Real Data Integration | Replace mock hooks with Inertia props from controllers | High     |
 
 ---
