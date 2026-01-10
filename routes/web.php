@@ -1,23 +1,15 @@
 <?php
 
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
-    
-Route::get('/offers', function () {
-    return Inertia::render('offers/index');
-})->name('offers.index');
-    
-Route::get('/offers/{slug}', function ($slug) {
-    return Inertia::render('offers/show', ['slug' => $slug]);
-})->name('offers.show');
-    
+// Public Routes
+Route::get('/', WelcomeController::class)->name('home');
+Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
+Route::get('/offers/{slug}', [OfferController::class, 'show'])->name('offers.show');
+
 Route::get('/approval-pending', function () {
     return Inertia::render('approval-pending');
 })->name('approval.pending');
