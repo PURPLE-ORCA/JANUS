@@ -88,9 +88,9 @@ class ApplicationFactory extends Factory
     }
 
     /**
-     * Create a new application.
+     * Create a new application (status = 'new').
      */
-    public function new(): static
+    public function newApplication(): static
     {
         return $this->state(fn (array $attributes) => [
             'status' => 'new',

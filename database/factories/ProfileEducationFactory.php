@@ -74,6 +74,7 @@ class ProfileEducationFactory extends Factory
     {
         $startYear = fake()->numberBetween(2010, 2022);
         $duration = fake()->numberBetween(2, 5);
+        $endYear = $startYear + $duration;
 
         return [
             'profile_id' => Profile::factory(),
@@ -81,7 +82,7 @@ class ProfileEducationFactory extends Factory
             'degree' => fake()->randomElement(self::DEGREES),
             'field' => fake()->randomElement(self::FIELDS),
             'start_date' => "{$startYear}-09-01",
-            'end_date' => fake()->optional(0.9)->passthrough("{$startYear + $duration}-06-30"),
+            'end_date' => fake()->optional(0.9)->passthrough("{$endYear}-06-30"),
         ];
     }
 
