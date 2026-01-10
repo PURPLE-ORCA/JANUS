@@ -8,10 +8,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useApplications } from '@/hooks/use-mock-data';
 import AppLayout from '@/layouts/app-layout';
-import { SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import type { Application } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
 import {
     Building2,
     Calendar,
@@ -21,35 +20,47 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function ApplicationsIndex() {
-    const { auth } = usePage<SharedData>().props;
-    const allApplications = useApplications(auth.user.id);
+interface PaginatedApplications {
+    data: Application[];
+    current_page: number;
+    last_page: number;
+    total: number;
+}
+
+interface PageProps {
+    applications: PaginatedApplications;
+    stats: {
+        total: number;
+        new: number;
+        viewed: number;
+        shortlisted: number;
+        interview: number;
+        offered: number;
+        rejected: number;
+    };
+    filters: {
+        status?: string;
+    };
+}
+
+export default function ApplicationsIndex({
+    applications,
+    stats,
+    filters,
+}: PageProps) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all');
+    const [statusFilter, setStatusFilter] = useState(filters?.status || 'all');
 
-    // Filter logic
-    const filteredApplications = allApplications.filter((app) => {
-        const matchesSearch =
-            app.offer?.title
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-            app.offer?.company?.name
-                ?.toLowerCase()
-                .includes(searchQuery.toLowerCase());
-        const matchesStatus =
-            statusFilter === 'all' ||
-            (statusFilter === 'active' &&
-                ['new', 'viewed', 'shortlisted', 'interview'].includes(
-                    app.status,
-                )) ||
-            (statusFilter === 'archived' &&
-                ['rejected', 'hired', 'withdrawn', 'offered'].includes(
-                    app.status,
-                )) ||
-            app.status === statusFilter;
-
-        return matchesSearch && matchesStatus;
-    });
+    const handleStatusChange = (value: string) => {
+        setStatusFilter(value);
+        router.get(
+            '/my-applications',
+            {
+                status: value === 'all' ? undefined : value,
+            },
+            { preserveState: true },
+        );
+    };
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -84,13 +95,18 @@ export default function ApplicationsIndex() {
         }
     };
 
-    // Calculate stats
-    const interviewScheduled = allApplications.filter(
-        (a) => a.status === 'interview' || a.interview_at,
-    ).length;
-    const offersReceived = allApplications.filter(
-        (a) => a.status === 'offered' || a.status === 'hired',
-    ).length;
+    // Filter for search (client-side) - the status filter is server-side
+    const filteredApplications = applications.data.filter((app) => {
+        if (!searchQuery) return true;
+        const matchesSearch =
+            app.offer?.title
+                ?.toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+            app.offer?.company?.name
+                ?.toLowerCase()
+                .includes(searchQuery.toLowerCase());
+        return matchesSearch;
+    });
 
     return (
         <AppLayout
@@ -113,20 +129,20 @@ export default function ApplicationsIndex() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                         <Badge variant="outline" className="px-3 py-1">
-                            Total: {allApplications.length}
+                            Total: {stats.total}
                         </Badge>
                         <Badge
                             variant="outline"
                             className="border-indigo-500/50 bg-indigo-500/10 px-3 py-1 text-indigo-600"
                         >
                             <CalendarCheck className="mr-1 h-3 w-3" />
-                            Interviews: {interviewScheduled}
+                            Interviews: {stats.interview}
                         </Badge>
                         <Badge
                             variant="outline"
                             className="border-emerald-500/50 bg-emerald-500/10 px-3 py-1 text-emerald-600"
                         >
-                            Offers: {offersReceived}
+                            Offers: {stats.offered}
                         </Badge>
                     </div>
                 </div>
@@ -145,7 +161,7 @@ export default function ApplicationsIndex() {
                     <div className="flex w-full items-center gap-2 md:w-auto">
                         <Select
                             value={statusFilter}
-                            onValueChange={setStatusFilter}
+                            onValueChange={handleStatusChange}
                         >
                             <SelectTrigger className="w-180px bg-white dark:bg-zinc-900">
                                 <Filter className="mr-2 h-4 w-4" />

@@ -1,16 +1,21 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useOffers } from '@/hooks/use-mock-data';
 import GuestLayout from '@/layouts/guest-layout';
 import { register } from '@/routes';
+import type { Offer } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Briefcase, Lock, Shield, Users } from 'lucide-react';
 
-// ─────────────────────────────────────────────────────────────
-// Components
-// ─────────────────────────────────────────────────────────────
+interface PageProps {
+    featuredOffers: Offer[];
+    stats: {
+        totalOffers: number;
+        totalCompanies: number;
+    };
+    canRegister: boolean;
+}
 
 const Hero = () => (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 pt-20 text-center">
@@ -79,7 +84,7 @@ const Hero = () => (
     </section>
 );
 
-const TickerItem = ({ offer }: { offer: any }) => (
+const TickerItem = ({ offer }: { offer: Offer }) => (
     <Card className="mx-4 w-75 shrink-0 border-white/10 bg-white/5 backdrop-blur-sm transition-colors hover:border-[#5617c2]/50">
         <CardContent className="p-6">
             <div className="mb-4 flex items-start justify-between">
@@ -106,9 +111,7 @@ const TickerItem = ({ offer }: { offer: any }) => (
     </Card>
 );
 
-const OffersTicker = () => {
-    const offers = useOffers({ activeOnly: true });
-
+const OffersTicker = ({ offers }: { offers: Offer[] }) => {
     // Duplicate offers to create infinite scroll effect
     const tickerOffers = [...offers, ...offers, ...offers];
 
@@ -196,12 +199,12 @@ const HowItWorks = () => (
 // Main Page
 // ─────────────────────────────────────────────────────────────
 
-export default function Welcome() {
+export default function Welcome({ featuredOffers }: PageProps) {
     return (
         <GuestLayout>
             <Head title="Welcome to Janus" />
             <Hero />
-            <OffersTicker />
+            <OffersTicker offers={featuredOffers || []} />
             <HowItWorks />
             <section className="relative overflow-hidden border-t border-white/10 bg-[#5617c2] py-24 text-center">
                 <div className="relative z-10 mx-auto max-w-4xl px-6">
