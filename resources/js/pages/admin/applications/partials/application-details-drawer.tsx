@@ -11,6 +11,8 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { Application } from '@/types';
+import { router } from '@inertiajs/react';
+
 import {
     Calendar,
     CheckCircle2,
@@ -39,17 +41,16 @@ export function ApplicationDetailsDrawer({
     if (!application) return null;
 
     const handleStatusChange = (status: string) => {
-        setProcessing(true);
-        // Simulate network request
-        setTimeout(() => {
-            setProcessing(false);
-            onOpenChange(false);
-            // In a real app, this would trigger a re-fetch or context update
-            console.log(
-                `Application ${application.id} status changed to ${status}`,
-            );
-            alert(`Application status updated to: ${status}`);
-        }, 800);
+        router.patch(
+            `/admin/applications/${application.id}/status`,
+            { status },
+            {
+                onStart: () => setProcessing(true),
+                onFinish: () => setProcessing(false),
+                onSuccess: () => onOpenChange(false),
+                preserveScroll: true,
+            },
+        );
     };
 
     return (
