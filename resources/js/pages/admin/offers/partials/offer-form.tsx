@@ -11,8 +11,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { SkillsInput } from '@/components/ui/skills-input';
-import { useCompanies } from '@/hooks/use-mock-data';
-import {
+import type {
+    Company,
     EducationLevel,
     ExperienceLevel,
     Offer,
@@ -24,16 +24,14 @@ import { FormEventHandler, useState } from 'react';
 
 interface OfferFormProps {
     offer?: Offer;
+    companies: Company[];
     mode: 'create' | 'edit';
 }
 
-export function OfferForm({ offer, mode }: OfferFormProps) {
-    const companies = useCompanies();
-
+export function OfferForm({ offer, companies, mode }: OfferFormProps) {
     const [data, setData] = useState({
         company_id: offer?.company_id || companies[0]?.id || 1,
         title: offer?.title || '',
-        slug: offer?.slug || '',
         location: offer?.location || '',
         work_mode: (offer?.work_mode || 'onsite') as WorkMode,
         type: (offer?.type || 'full-time') as OfferType,
@@ -49,46 +47,63 @@ export function OfferForm({ offer, mode }: OfferFormProps) {
         positions_count: offer?.positions_count || 1,
         is_urgent: offer?.is_urgent ?? false,
         is_active: offer?.is_active ?? true,
-        deadline: offer?.deadline || '',
+        deadline: offer?.deadline ? offer.deadline.split('T')[0] : '',
     });
 
     const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         setProcessing(true);
+        setErrors({});
 
-        setTimeout(() => {
-            setProcessing(false);
-            console.log('Form Submitted:', data);
-            router.visit('/admin/offers');
-        }, 1000);
+        if (mode === 'create') {
+            router.post('/admin/offers', data, {
+                onError: (errs) => {
+                    setErrors(errs);
+                    setProcessing(false);
+                },
+                onSuccess: () => setProcessing(false),
+            });
+        } else {
+            router.put(`/admin/offers/${offer?.slug}`, data, {
+                onError: (errs) => {
+                    setErrors(errs);
+                    setProcessing(false);
+                },
+                onSuccess: () => setProcessing(false),
+            });
+        }
     };
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const title = e.target.value;
-        const updates: Partial<typeof data> = { title };
-
-        if (
-            mode === 'create' &&
-            (!data.slug ||
-                data.slug ===
-                    title
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/^-|-$/g, ''))
-        ) {
-            updates.slug = title
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-|-$/g, '');
-        }
-
-        setData((prev) => ({ ...prev, ...updates }));
+        setData((prev) => ({ ...prev, title: e.target.value }));
     };
 
     return (
         <form onSubmit={submit} className="max-w-4xl space-y-8">
+            {companies.length === 0 && (
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>No Companies Found</AlertTitle>
+                    <AlertDescription>
+                        You need at least one verified company to create an
+                        offer. Please go to Companies and verify a company
+                        first.
+                    </AlertDescription>
+                </Alert>
+            )}
+
+            {Object.keys(errors).length > 0 && (
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        Please fix the errors below before submitting.
+                    </AlertDescription>
+                </Alert>
+            )}
             {/* Company & Title Row */}
             <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
@@ -127,33 +142,21 @@ export function OfferForm({ offer, mode }: OfferFormProps) {
                 </div>
             </div>
 
-            {/* Slug & Location Row */}
-            <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-2">
-                    <Label htmlFor="slug">Slug (URL)</Label>
-                    <Input
-                        id="slug"
-                        value={data.slug}
-                        onChange={(e) =>
-                            setData({ ...data, slug: e.target.value })
-                        }
-                        placeholder="e.g. senior-react-developer"
-                        required
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
-                    <Input
-                        id="location"
-                        value={data.location}
-                        onChange={(e) =>
-                            setData({ ...data, location: e.target.value })
-                        }
-                        placeholder="e.g. Casablanca, Remote"
-                        required
-                    />
-                </div>
+            {/* Location */}
+            <div className="space-y-2">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                    id="location"
+                    value={data.location}
+                    onChange={(e) =>
+                        setData({ ...data, location: e.target.value })
+                    }
+                    placeholder="e.g. Casablanca, Remote"
+                    required
+                />
+                {errors.location && (
+                    <p className="text-sm text-red-500">{errors.location}</p>
+                )}
             </div>
 
             {/* Work Mode & Type Row */}
