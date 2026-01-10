@@ -10,34 +10,42 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useMockRole } from '@/hooks/use-mock-data';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {
+    BookOpen,
+    Briefcase,
+    FileText,
+    Folder,
+    LayoutGrid,
+    Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
+// Admin navigation
+const adminNavItems: NavItem[] = [
+    { title: 'Dashboard', href: '/admin', icon: LayoutGrid },
+    { title: 'User Management', href: '/admin/users', icon: Users },
+    { title: 'Offers', href: '/admin/offers', icon: Briefcase },
+    { title: 'Applications', href: '/admin/applications', icon: FileText },
+];
+
+// Candidate navigation
+const candidateNavItems: NavItem[] = [
+    { title: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
+    { title: 'My Applications', href: '/my-applications', icon: Briefcase },
 ];
 
 const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
+
 ];
 
 export function AppSidebar() {
+    const { isAdmin } = useMockRole();
+    const navItems = isAdmin ? adminNavItems : candidateNavItems;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -53,7 +61,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={navItems} />
             </SidebarContent>
 
             <SidebarFooter>
