@@ -9,17 +9,9 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { useOffers } from '@/hooks/use-mock-data';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, WorkMode } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import type { BreadcrumbItem, Company, Offer } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
 import {
     Building2,
     Edit2,
@@ -33,6 +25,23 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
+interface PaginatedOffers {
+    data: Offer[];
+    current_page: number;
+    last_page: number;
+    total: number;
+}
+
+interface PageProps {
+    offers: PaginatedOffers;
+    companies: Company[];
+    filters: {
+        search?: string;
+        is_active?: string;
+        company_id?: string;
+    };
+}
+
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },
     { title: 'Offers', href: '/admin/offers' },
@@ -44,22 +53,33 @@ const workModeLabels: Record<string, string> = {
     hybrid: 'Hybrid',
 };
 
-export default function AdminOffers() {
-    const [search, setSearch] = useState('');
-    const [workModeFilter, setWorkModeFilter] = useState('all');
-    const [urgentFilter, setUrgentFilter] = useState('all');
+export default function AdminOffers({ offers, companies, filters }: PageProps) {
+    const [search, setSearch] = useState(filters?.search || '');
 
-    const allOffers = useOffers({
-        search,
-        workMode:
-            workModeFilter === 'all' ? undefined : (workModeFilter as WorkMode),
-        isUrgent: urgentFilter === 'urgent' ? true : undefined,
-    });
+    const handleSearch = () => {
+        router.get(
+            '/admin/offers',
+            {
+                search: search || undefined,
+            },
+            { preserveState: true },
+        );
+    };
 
-    // Stats
-    const totalOffers = allOffers.length;
-    const activeOffers = allOffers.filter((o) => o.is_active).length;
-    const urgentOffers = allOffers.filter((o) => o.is_urgent).length;
+    const handleDelete = (slug: string) => {
+        if (confirm('Are you sure you want to delete this offer?')) {
+            router.delete(`/admin/offers/${slug}`);
+        }
+    };
+
+    const handleToggleActive = (slug: string) => {
+        router.patch(`/admin/offers/${slug}/toggle`);
+    };
+
+    // Stats from paginated data
+    const totalOffers = offers.total;
+    const activeOffers = offers.data.filter((o) => o.is_active).length;
+    const urgentOffers = offers.data.filter((o) => o.is_urgent).length;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -113,34 +133,14 @@ export default function AdminOffers() {
                             className="pl-9"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) =>
+                                e.key === 'Enter' && handleSearch()
+                            }
                         />
                     </div>
-                    <Select
-                        value={workModeFilter}
-                        onValueChange={setWorkModeFilter}
-                    >
-                        <SelectTrigger className="w-40">
-                            <SelectValue placeholder="Work Mode" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Modes</SelectItem>
-                            <SelectItem value="onsite">On-site</SelectItem>
-                            <SelectItem value="remote">Remote</SelectItem>
-                            <SelectItem value="hybrid">Hybrid</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Select
-                        value={urgentFilter}
-                        onValueChange={setUrgentFilter}
-                    >
-                        <SelectTrigger className="w-36">
-                            <SelectValue placeholder="Priority" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Offers</SelectItem>
-                            <SelectItem value="urgent">Urgent Only</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <Button onClick={handleSearch} variant="outline">
+                        Search
+                    </Button>
                 </div>
 
                 {/* Table */}
@@ -170,7 +170,7 @@ export default function AdminOffers() {
                                 </tr>
                             </thead>
                             <tbody className="[&_tr:last-child]:border-0">
-                                {allOffers.length === 0 ? (
+                                {offers.data.length === 0 ? (
                                     <tr>
                                         <td
                                             colSpan={6}
@@ -180,7 +180,7 @@ export default function AdminOffers() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    allOffers.map((offer) => (
+                                    offers.data.map((offer: Offer) => (
                                         <tr
                                             key={offer.id}
                                             className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
@@ -300,7 +300,14 @@ export default function AdminOffers() {
                                                             </DropdownMenuItem>
                                                         </Link>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-900/50">
+                                                        <DropdownMenuItem
+                                                            className="text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-900/50"
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    offer.slug,
+                                                                )
+                                                            }
+                                                        >
                                                             <Trash2 className="mr-2 size-4" />
                                                             Delete
                                                         </DropdownMenuItem>

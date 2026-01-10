@@ -1,14 +1,9 @@
 import { StatCard } from '@/components/stat-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    useAdminStats,
-    useCompanies,
-    usePendingUsers,
-} from '@/hooks/use-mock-data';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import type { BreadcrumbItem, User } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
 import {
     Briefcase,
     Building2,
@@ -21,18 +16,47 @@ import {
     XCircle,
 } from 'lucide-react';
 
+interface PageProps {
+    stats: {
+        totalUsers: number;
+        pendingApprovals: number;
+        activeOffers: number;
+        totalApplications: number;
+        newApplications: number;
+        totalCompanies: number;
+        verifiedCompanies: number;
+        urgentOffers: number;
+        interviewsScheduled: number;
+    };
+    recentApplications: any[];
+    pendingUsers: User[];
+}
+
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },
     { title: 'Dashboard', href: '/admin' },
 ];
 
-export default function AdminDashboard() {
-    const stats = useAdminStats();
-    const pendingUsers = usePendingUsers();
-    const companies = useCompanies();
+export default function AdminDashboard({
+    stats,
+    recentApplications,
+    pendingUsers,
+}: PageProps) {
+    const handleApprove = (userId: number) => {
+        router.post(
+            `/admin/users/${userId}/approve`,
+            {},
+            { preserveScroll: true },
+        );
+    };
 
-    // Additional stats
-    const verifiedCompanies = companies.filter((c) => c.is_verified).length;
+    const handleReject = (userId: number) => {
+        router.post(
+            `/admin/users/${userId}/reject`,
+            {},
+            { preserveScroll: true },
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -89,7 +113,7 @@ export default function AdminDashboard() {
                     />
                     <StatCard
                         label="Verified Companies"
-                        value={verifiedCompanies}
+                        value={stats.verifiedCompanies}
                         icon="solar:verified-check-bold"
                     />
                     <StatCard
@@ -237,6 +261,9 @@ export default function AdminDashboard() {
                                                     size="icon"
                                                     variant="ghost"
                                                     className="size-8 text-green-600 hover:bg-green-50 hover:text-green-700"
+                                                    onClick={() =>
+                                                        handleApprove(user.id)
+                                                    }
                                                 >
                                                     <CheckCircle className="size-4" />
                                                 </Button>
@@ -244,6 +271,9 @@ export default function AdminDashboard() {
                                                     size="icon"
                                                     variant="ghost"
                                                     className="size-8 text-red-600 hover:bg-red-50 hover:text-red-700"
+                                                    onClick={() =>
+                                                        handleReject(user.id)
+                                                    }
                                                 >
                                                     <XCircle className="size-4" />
                                                 </Button>
