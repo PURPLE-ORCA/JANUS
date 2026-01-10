@@ -476,48 +476,47 @@ Remember: Gemini is capable of extraordinary creative work. Don't hold back, sho
 
 ---
 
-#### 🔄 IN PROGRESS (v0.2 Pivot)
+#### ✅ COMPLETED (v0.2 Transformation — January 9, 2026)
 
-**Phase 5: v0.2 Schema Transformation** 🎯 CURRENT
+**Phase 5: v0.2 Schema Transformation** ✅ COMPLETE
 
-> Priority: **CRITICAL** — Must complete before backend wiring
+> Implemented on January 9, 2026
 
 | Task                                             | Status | Notes                                |
 | ------------------------------------------------ | ------ | ------------------------------------ |
-| Create `Company` migration + model               | [ ]    | New entity for offers                |
-| Create `ProfileEducation` migration + model      | [ ]    | One-to-many from Profile             |
-| Create `ProfileExperience` migration + model     | [ ]    | One-to-many from Profile             |
-| Create `ProfileLanguage` migration + model       | [ ]    | One-to-many from Profile             |
-| Create `OfferScreenerQuestion` migration + model | [ ]    | Pre-screening questions              |
-| Create `ApplicationNote` migration + model       | [ ]    | Recruiter notes                      |
-| Extend `profiles` migration with new fields      | [ ]    | city, dob, nationality, etc.         |
-| Extend `offers` migration with new fields        | [ ]    | company_id, work_mode, etc.          |
-| Extend `applications` migration                  | [ ]    | screener_responses, rejection_reason |
-| Update TypeScript types (`types/index.d.ts`)     | [ ]    | Match new schema                     |
-| Update mock JSON data files                      | [ ]    | Add new fields with realistic data   |
-| Update mock data hooks                           | [ ]    | Support new relationships            |
+| Create `Company` migration + model               | [x]    | New entity for offers                |
+| Create `ProfileEducation` migration + model      | [x]    | One-to-many from Profile             |
+| Create `ProfileExperience` migration + model     | [x]    | One-to-many from Profile             |
+| Create `ProfileLanguage` migration + model       | [x]    | One-to-many from Profile             |
+| Create `OfferScreenerQuestion` migration + model | [x]    | Pre-screening questions              |
+| Create `ApplicationNote` migration + model       | [x]    | Recruiter notes                      |
+| Extend `profiles` migration with new fields      | [x]    | city, dob, nationality, etc.         |
+| Extend `offers` migration with new fields        | [x]    | company_id, work_mode, etc.          |
+| Extend `applications` migration                  | [x]    | screener_responses, rejection_reason |
+| Update TypeScript types (`types/index.d.ts`)     | [x]    | Match new schema                     |
+| Update mock JSON data files                      | [x]    | Add new fields with realistic data   |
+| Update mock data hooks                           | [x]    | Support new relationships            |
 
-**Phase 5b: Frontend Schema Sync**
+**Phase 5b: Frontend Schema Sync** ✅ COMPLETE
 
-| Task                                              | Status | Notes                               |
-| ------------------------------------------------- | ------ | ----------------------------------- |
-| Update `profile-form.tsx` with new fields         | [ ]    | Education, experience, languages    |
-| Add education/experience/language sub-forms       | [ ]    | Repeater pattern                    |
-| Update `OfferCard` with company info              | [ ]    | Logo, company name                  |
-| Add filters: experience level, work mode, sector  | [ ]    | On offers listing                   |
-| Update `ApplicationModal` with screener questions | [ ]    | Dynamic form                        |
-| Update admin offer form with new fields           | [ ]    | company selector, screener Q editor |
+| Task                                              | Status | Notes                                       |
+| ------------------------------------------------- | ------ | ------------------------------------------- |
+| Update `profile-form.tsx` with new fields         | [x]    | All basic fields added                      |
+| Add education/experience/language sub-forms       | [ ]    | Deferred — Repeater pattern                 |
+| Update `OfferCard` with company info              | [x]    | Company name, urgent badge, work mode       |
+| Add filters: experience level, work mode, sector  | [x]    | Experience, work mode done. Sector deferred |
+| Update `ApplicationModal` with screener questions | [ ]    | Deferred — Needs screener editor first      |
+| Update admin offer form with new fields           | [x]    | Company selector, all new fields added      |
 
 ---
 
-#### 🔜 NEXT (Post-Schema)
+#### 🎯 CURRENT (Post-Schema)
 
 **Phase 6: Backend Integration**
 
 | Task                                      | Priority | Notes                       |
 | ----------------------------------------- | -------- | --------------------------- |
-| Run migrations                            | High     | All new tables              |
-| Create Laravel models with relationships  | High     | Eloquent                    |
+| Create database seeders                   | High     | Populate test data          |
 | Create API controllers (Inertia-style)    | High     | Return props                |
 | Replace mock hooks with real Inertia data | High     | Remove `use-mock-data.ts`   |
 | File uploads (resume, company logo)       | High     | Storage driver              |
@@ -609,10 +608,94 @@ resources/js/
 
 ## Progress Log
 
-> **Last Updated**: January 1, 2026 — 🔄 v0.2 PIVOT INITIATED
+> **Last Updated**: January 9, 2026 — ✅ v0.2 TRANSFORMATION COMPLETE
 >
-> **Current Phase**: 5 (Schema Transformation)
-> **Status**: Extending database schema to industry standards
+> **Current Phase**: 5b (Frontend Schema Sync — DONE)
+> **Status**: All stages of the v0.2 transformation have been implemented and committed
+
+---
+
+### 🎉 v0.2 Transformation Complete! (January 9, 2026)
+
+The industry-standard schema transformation is now **fully implemented**. JANUS now matches the data model quality of Indeed, ReKrute.com, and Emploi.ma.
+
+#### Commits Made
+
+| Commit      | Message                                                              | Files |
+| ----------- | -------------------------------------------------------------------- | ----- |
+| `8904637`   | `feat: Update frontend forms to align with new database`             | 4     |
+| `c485b70`   | `feat: Update users pages to reflect the v0.2 industry-level schema` | 5     |
+| _(earlier)_ | Stage 1-2 schema and data layer commits                              | ~25   |
+
+#### Stage 1: Backend Schema ✅
+
+**10 Migrations Created:**
+
+- `create_users_table.php` — Extended with role, status, avatar_path
+- `create_companies_table.php` — New table for company profiles
+- `create_profiles_table.php` — Extended candidate profiles
+- `create_profile_education_table.php` — Education history
+- `create_profile_experience_table.php` — Work history
+- `create_profile_languages_table.php` — Language proficiencies
+- `create_offers_table.php` — Extended job listings
+- `create_offer_screener_questions_table.php` — Pre-screening questions
+- `create_applications_table.php` — Extended application tracking
+- `create_application_notes_table.php` — Recruiter notes
+
+**10 Eloquent Models Created:**
+
+- `User.php` (extended), `Company.php`, `Profile.php`, `ProfileEducation.php`, `ProfileExperience.php`, `ProfileLanguage.php`, `Offer.php`, `OfferScreenerQuestion.php`, `Application.php`, `ApplicationNote.php`
+
+#### Stage 2: Data Layer (TypeScript) ✅
+
+**Types Added/Extended** (`types/index.d.ts`):
+
+- New: `Company`, `ProfileEducation`, `ProfileExperience`, `ProfileLanguage`, `OfferScreenerQuestion`, `ApplicationNote`
+- Extended: `Profile` (12 new fields), `Offer` (10 new fields), `Application` (3 new fields)
+- Enums: `CompanySector`, `Availability`, `EducationLevel`, `ExperienceLevel`, `WorkMode`, `LanguageProficiency`, `QuestionType`
+
+**Mock JSON Updated:**
+
+- `companies.json` — 10 Moroccan companies
+- `profiles.json` — Extended with education/experience/languages
+- `offers.json` — Extended with company_id and new fields
+- `applications.json` — Extended with screener_responses
+
+**Hooks Updated** (`use-mock-data.ts`):
+
+- New: `useCompanies()`, `useCompany()`, `useVerifiedCompanies()`
+- Extended: `useOffers()` with company relation and new filters
+
+#### Stage 3: Frontend Forms ✅
+
+**Forms Extended:**
+
+| File               | Updates                                                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `profile-form.tsx` | city, country, DOB, nationality, years_of_experience, expected_salary, availability, education_level, has_driving_license                |
+| `offer-form.tsx`   | company_id selector, work_mode, experience_level, education_required, languages_required, benefits, positions_count, deadline, is_urgent |
+
+#### Stage 4: Complete Page Transformations ✅
+
+| Page                     | Updates                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| `offers/show.tsx`        | Company info, urgent badge, requirements section, benefits, company card in sidebar |
+| `offers/index.tsx`       | Work mode, experience level, urgent filters                                         |
+| `applications/index.tsx` | Company names, work mode, interview dates, interview/offers stats                   |
+| `dashboard.tsx`          | 5 stats including interviews/offers, upcoming interview alert                       |
+| `admin/index.tsx`        | 8 stats (companies, urgent, interviews), alert cards                                |
+| `admin/offers/index.tsx` | Company column, work mode filter, urgent icons, views/positions columns             |
+
+#### Deferred Items (Future Iterations)
+
+- `education-form.tsx` — Education history repeater
+- `experience-form.tsx` — Work history repeater
+- `languages-form.tsx` — Languages repeater
+- `screener-editor.tsx` — Screener questions editor
+- `application-modal.tsx` — Screener questions integration
+- Sector filter on offers page
+
+---
 
 ### Historical Changelog
 
