@@ -746,14 +746,6 @@ resources/js/pages/admin/companies/   # NEW FRONTEND PAGES
 
 ## Verification Plan
 
-### Automated Tests
-
-Run the full test suite after each phase:
-
-```bash
-php artisan test
-```
-
 ### Manual Verification Checklist
 
 After completing all phases, verify:
@@ -783,7 +775,7 @@ After completing all phases, verify:
 | Phase 5  | Services Layer                                           |
 | Phase 6  | Routes Refactoring                                       |
 | Phase 7  | Frontend Integration + Company Management Pages          |
-| Phase 8  | Validation & Testing                                     |
+| Phase 8  | Validation                                    |
 | DEFERRED | Email Notifications (future release)                     |
 
 ---

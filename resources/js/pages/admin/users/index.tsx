@@ -1,10 +1,9 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useUsers } from '@/hooks/use-mock-data';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, User } from '@/types';
-import { Head } from '@inertiajs/react';
+import type { BreadcrumbItem, User } from '@/types';
+import { Head, router } from '@inertiajs/react';
 import {
     CheckCircle,
     Clock,
@@ -13,6 +12,27 @@ import {
     XCircle,
 } from 'lucide-react';
 import { useState } from 'react';
+
+interface PaginatedUsers {
+    data: User[];
+    current_page: number;
+    last_page: number;
+    total: number;
+}
+
+interface PageProps {
+    users: PaginatedUsers;
+    filters: {
+        search?: string;
+        status?: string;
+    };
+    stats: {
+        total: number;
+        pending: number;
+        active: number;
+        rejected: number;
+    };
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },
@@ -54,34 +74,62 @@ function getStatusBadge(status: User['status']) {
     }
 }
 
-export default function AdminUsers() {
-    const allUsers = useUsers();
-    const [search, setSearch] = useState('');
+export default function AdminUsers({ users, filters, stats }: PageProps) {
+    const [search, setSearch] = useState(filters?.search || '');
     const [statusFilter, setStatusFilter] = useState<
         'all' | 'pending' | 'active' | 'rejected'
-    >('all');
+    >((filters?.status as 'pending' | 'active' | 'rejected') || 'all');
 
-    // Filter users (candidates only, not admins)
-    const users = allUsers
-        .filter((u) => u.role === 'candidate')
-        .filter((u) => statusFilter === 'all' || u.status === statusFilter)
-        .filter(
-            (u) =>
-                u.name.toLowerCase().includes(search.toLowerCase()) ||
-                u.email.toLowerCase().includes(search.toLowerCase()),
+    const handleFilter = (
+        status: 'all' | 'pending' | 'active' | 'rejected',
+    ) => {
+        setStatusFilter(status);
+        router.get(
+            '/admin/users',
+            {
+                search: search || undefined,
+                status: status === 'all' ? undefined : status,
+            },
+            { preserveState: true },
         );
+    };
+
+    const handleSearch = () => {
+        router.get(
+            '/admin/users',
+            {
+                search: search || undefined,
+                status: statusFilter === 'all' ? undefined : statusFilter,
+            },
+            { preserveState: true },
+        );
+    };
+
+    const handleApprove = (userId: number) => {
+        router.post(
+            `/admin/users/${userId}/approve`,
+            {},
+            {
+                preserveScroll: true,
+            },
+        );
+    };
+
+    const handleReject = (userId: number) => {
+        router.post(
+            `/admin/users/${userId}/reject`,
+            {},
+            {
+                preserveScroll: true,
+            },
+        );
+    };
 
     const counts = {
-        all: allUsers.filter((u) => u.role === 'candidate').length,
-        pending: allUsers.filter(
-            (u) => u.role === 'candidate' && u.status === 'pending',
-        ).length,
-        active: allUsers.filter(
-            (u) => u.role === 'candidate' && u.status === 'active',
-        ).length,
-        rejected: allUsers.filter(
-            (u) => u.role === 'candidate' && u.status === 'rejected',
-        ).length,
+        all: stats.total,
+        pending: stats.pending,
+        active: stats.active,
+        rejected: stats.rejected,
     };
 
     return (
@@ -123,7 +171,7 @@ export default function AdminUsers() {
                                         : 'outline'
                                 }
                                 size="sm"
-                                onClick={() => setStatusFilter(status)}
+                                onClick={() => handleFilter(status)}
                                 className="capitalize"
                             >
                                 {status}{' '}
@@ -151,23 +199,13 @@ export default function AdminUsers() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-sidebar-border/50">
-                                {users.map((user) => (
+                                {users.data.map((user: User) => (
                                     <tr
                                         key={user.id}
                                         className="transition-colors hover:bg-neutral-50/50 dark:hover:bg-neutral-900/30"
                                     >
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="flex size-10 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
-                                                    <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                                                        {user.name
-                                                            .split(' ')
-                                                            .map((n) => n[0])
-                                                            .join('')
-                                                            .slice(0, 2)
-                                                            .toUpperCase()}
-                                                    </span>
-                                                </div>
                                                 <span className="font-medium text-foreground">
                                                     {user.name}
                                                 </span>
@@ -192,6 +230,11 @@ export default function AdminUsers() {
                                                             size="sm"
                                                             variant="ghost"
                                                             className="text-green-600 hover:bg-green-50 hover:text-green-700"
+                                                            onClick={() =>
+                                                                handleApprove(
+                                                                    user.id,
+                                                                )
+                                                            }
                                                         >
                                                             <CheckCircle className="mr-1 size-4" />
                                                             Approve
@@ -200,6 +243,11 @@ export default function AdminUsers() {
                                                             size="sm"
                                                             variant="ghost"
                                                             className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                                                            onClick={() =>
+                                                                handleReject(
+                                                                    user.id,
+                                                                )
+                                                            }
                                                         >
                                                             <XCircle className="mr-1 size-4" />
                                                             Reject
@@ -221,7 +269,7 @@ export default function AdminUsers() {
                         </table>
                     </div>
 
-                    {users.length === 0 && (
+                    {users.data.length === 0 && (
                         <div className="flex items-center justify-center py-12">
                             <div className="text-center">
                                 <p className="font-medium text-muted-foreground">
