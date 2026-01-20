@@ -10,7 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Offer, User } from '@/types';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import {
     Check,
     CheckCircle2,
@@ -47,12 +47,24 @@ export default function ApplicationModal({
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Mock submission delay
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setIsSuccess(true);
-            // In real app: post(route('applications.store'))
-        }, 1500);
+        router.post(
+            '/applications',
+            {
+                offer_id: offer.id,
+                cover_note: data.cover_note || '',
+                resume: data.resume, // Will use existing resume if null, or new file if attached
+            },
+            {
+                forceFormData: true,
+                onSuccess: () => {
+                    setIsSubmitting(false);
+                    setIsSuccess(true);
+                },
+                onError: () => {
+                    setIsSubmitting(false);
+                },
+            },
+        );
     };
 
     const handleClose = () => {

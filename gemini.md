@@ -1034,3 +1034,39 @@ The industry-standard schema transformation is now **fully implemented**. JANUS 
 | Real Data Integration | Replace mock hooks with Inertia props from controllers | High     |
 
 ---
+
+### 📝 Detailed Session Log (January 20, 2026)
+
+#### 1. Implementation & Rationale
+
+We focused on **connecting the "Velvet Rope" logic to the backend**, moving from a visual prototype to a functional MVP.
+
+- **Admin Offers CRUD**:
+    - _Why_: Admins need to create and edit job listings without touching the database directly.
+    - _Implementation_: Built `Create` and `Edit` pages using Inertia forms, connected to `OfferController`. Added "Delete" functionality with a confirmation dialog.
+- **Application Workflow**:
+    - _Why_: The core value of Janus is the vetting process.
+    - _Implementation_: Refactored `ApplicationDetailsDrawer` to allow admins to change statuses (Shortlisted, Rejected, Hired). Wired up the candidate-side `ApplicationModal` to submit real applications.
+- **Profile & Resume Management**:
+    - _Why_: Candidates cannot apply without a resume.
+    - _Implementation_: Split the profile update into two requests: one for the Resume file upload (`POST` to `/candidate-profile/resume`) and one for data updates (`PUT` to `/candidate-profile`), ensuring file uploads don't break simple data patches.
+
+#### 2. Bugs Encountered & Fixes
+
+| Issue                      | Cause                                                                                                                                  | Fix                                                                                                                                                    |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **"Route not defined"**    | Usage of Laravel's `route()` helper in React without Ziggy configured globally.                                                        | **Hardcoded Paths**: We replaced all occurrences of `route('name')` with direct paths like `/candidate-profile`. _Reliability over magic._             |
+| **Mock Logic Residue**     | `setTimeout` and `console.log` were simulating network requests in `ApplicationModal`.                                                 | **Audit & Replace**: Grepped for `setTimeout` and replaced it with `router.post({...})`.                                                               |
+| **Resume Upload Failures** | Sending a file via `PUT` request often fails in Laravel/Inertia due to how multipart/form-data is dealt with (method spoofing issues). | **Endpoint Separation**: Created a dedicated `POST` route for resume uploads to handle multipart data cleanly, separate from the PATCH profile update. |
+| **Missing Type Imports**   | `ApplicationDetailsDrawer` lost its imports during a previous aggressive cleanup.                                                      | **Restoration**: Restored the file from a backup state and re-integrated it.                                                                           |
+
+#### 3. 🧠 Key Learnings & Future Instructions
+
+> [!IMPORTANT]
+> **To Future Us:** Read this before starting the next session.
+
+1.  **Ditch the `route()` Helper in frontend**: Unless we explicitly configure Ziggy and share routes, **do not** use `route('foo.bar')` in React. It causes more build headaches than it solves. STICK TO URL PATHS (`/admin/offers`) or use the custom `wayfinder` in `routes/index.ts` if strict typing is needed.
+2.  **Inertia Manual Router vs. useForm**:
+    - Use `useForm` for standard "fill and submit" forms.
+    - Use `router.post/visit` for complex actions (like "Upload file -> Then redirect" or "Change Status -> Then Toast").
+3.  **Mock Data is a Trap**: Visual checks are insufficient. Always search for code patterns like `const [isSubmitting, setIsSubmitting] = useState` combined with `setTimeout` to find "fake" backend logic.

@@ -282,11 +282,18 @@ export default function Dashboard({
                                     Profile Strength
                                 </h3>
                                 <div className="mb-4 h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-800">
-                                    <div className="h-2 w-[70%] rounded-full bg-violet-600"></div>
+                                    <div
+                                        className="h-2 rounded-full bg-violet-600 transition-all duration-1000"
+                                        style={{
+                                            width: `${profileStrength.percentage}%`,
+                                        }}
+                                    ></div>
                                 </div>
                                 <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
-                                    Your profile is 70% complete. Add your work
-                                    experience and education to reach 100%.
+                                    Your profile is {profileStrength.percentage}
+                                    % complete.
+                                    {profileStrength.percentage < 100 &&
+                                        ' Add your work experience and education to reach 100%.'}
                                 </p>
                                 <Link
                                     href="/profile"
