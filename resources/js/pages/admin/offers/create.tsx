@@ -1,7 +1,11 @@
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem, Company } from '@/types';
 import { Head } from '@inertiajs/react';
 import { OfferForm } from './partials/offer-form';
+
+interface PageProps {
+    companies: Company[];
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },
@@ -9,7 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'New Offer', href: '/admin/offers/create' },
 ];
 
-export default function CreateOffer() {
+export default function CreateOffer({ companies }: PageProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Offer" />
@@ -25,7 +29,7 @@ export default function CreateOffer() {
                 </div>
 
                 <div className="p-6">
-                    <OfferForm mode="create" />
+                    <OfferForm mode="create" companies={companies} />
                 </div>
             </div>
         </AppLayout>

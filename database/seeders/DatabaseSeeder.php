@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,15 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            CompanySeeder::class,
+            UserSeeder::class,
+            ProfileSeeder::class,
+            OfferSeeder::class,
+            ApplicationSeeder::class,
+        ]);
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => 'password',
-                'email_verified_at' => now(),
-            ]
-        );
+        $this->command->info('🎉 Database seeded successfully!');
+        $this->command->info('');
+        $this->command->info('Test Accounts:');
+        $this->command->info('  Admin: admin@janus.ma / password');
+        $this->command->info('  Candidate: candidat@janus.ma / password');
     }
 }
+

@@ -2,9 +2,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useOffer } from '@/hooks/use-mock-data';
 import GuestLayout from '@/layouts/guest-layout';
 import { register } from '@/routes';
+import type { Offer, User } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import {
@@ -28,8 +28,13 @@ import {
 import { useState } from 'react';
 import ApplicationModal from './partials/application-modal';
 
-interface Props {
-    slug: string;
+interface PageProps {
+    offer: Offer;
+    hasApplied: boolean;
+    canApply: boolean;
+    auth: {
+        user: User | null;
+    };
 }
 
 const workModeLabels = {
@@ -54,9 +59,8 @@ const educationLabels: Record<string, string> = {
     none: 'Not required',
 };
 
-export default function OfferShow({ slug }: Props) {
-    const offer = useOffer(slug);
-    const { auth } = usePage<any>().props;
+export default function OfferShow({ offer, hasApplied, canApply }: PageProps) {
+    const { auth } = usePage<PageProps>().props;
     const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
 
     if (!offer) {

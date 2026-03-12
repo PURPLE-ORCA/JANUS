@@ -5,24 +5,10 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useMockRole } from '@/hooks/use-mock-data';
-import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import {
-    BookOpen,
-    Briefcase,
-    FileText,
-    Folder,
-    LayoutGrid,
-    Users,
-} from 'lucide-react';
-import AppLogo from './app-logo';
+import { Briefcase, FileText, LayoutGrid, Users } from 'lucide-react';
 
 // Admin navigation
 const adminNavItems: NavItem[] = [
@@ -35,12 +21,11 @@ const adminNavItems: NavItem[] = [
 // Candidate navigation
 const candidateNavItems: NavItem[] = [
     { title: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
-    { title: 'My Applications', href: '/my-applications', icon: Briefcase },
+    { title: 'Offers', href: '/offers', icon: Briefcase },
+    { title: 'My Applications', href: '/my-applications', icon: FileText },
 ];
 
-const footerNavItems: NavItem[] = [
-
-];
+const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     const { isAdmin } = useMockRole();
@@ -48,18 +33,6 @@ export function AppSidebar() {
 
     return (
         <Sidebar collapsible="icon" variant="inset">
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
-                                <AppLogo />
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
-
             <SidebarContent>
                 <NavMain items={navItems} />
             </SidebarContent>

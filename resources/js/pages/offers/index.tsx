@@ -9,35 +9,64 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useOffers } from '@/hooks/use-mock-data';
 import GuestLayout from '@/layouts/guest-layout';
-import { type ExperienceLevel, type OfferType, type WorkMode } from '@/types';
-import { Head } from '@inertiajs/react';
+import {
+    type ExperienceLevel,
+    type Offer,
+    type OfferType,
+    type WorkMode,
+} from '@/types';
+import { Head, router } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { Flame, Search, X } from 'lucide-react';
 import { useState } from 'react';
 
-export default function OffersIndex() {
-    const [search, setSearch] = useState('');
-    const [type, setType] = useState<string>('all');
-    const [workMode, setWorkMode] = useState<string>('all');
-    const [experienceLevel, setExperienceLevel] = useState<string>('all');
-    const [showUrgentOnly, setShowUrgentOnly] = useState(false);
+interface PaginatedOffers {
+    data: Offer[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+}
 
-    // Derived filters for hook
-    const filters = {
-        search,
-        type: type === 'all' ? undefined : (type as OfferType),
-        workMode: workMode === 'all' ? undefined : (workMode as WorkMode),
-        experienceLevel:
-            experienceLevel === 'all'
-                ? undefined
-                : (experienceLevel as ExperienceLevel),
-        isUrgent: showUrgentOnly || undefined,
-        activeOnly: true,
+interface PageProps {
+    offers: PaginatedOffers;
+    filters: {
+        search?: string;
+        type?: OfferType;
+        work_mode?: WorkMode;
+        experience_level?: ExperienceLevel;
+        is_urgent?: boolean;
     };
+}
 
-    const offers = useOffers(filters);
+export default function OffersIndex({ offers, filters }: PageProps) {
+    const [search, setSearch] = useState(filters?.search || '');
+    const [type, setType] = useState<string>(filters?.type || 'all');
+    const [workMode, setWorkMode] = useState<string>(
+        filters?.work_mode || 'all',
+    );
+    const [experienceLevel, setExperienceLevel] = useState<string>(
+        filters?.experience_level || 'all',
+    );
+    const [showUrgentOnly, setShowUrgentOnly] = useState(
+        filters?.is_urgent || false,
+    );
+
+    const applyFilters = () => {
+        router.get(
+            '/offers',
+            {
+                search: search || undefined,
+                type: type === 'all' ? undefined : type,
+                work_mode: workMode === 'all' ? undefined : workMode,
+                experience_level:
+                    experienceLevel === 'all' ? undefined : experienceLevel,
+                is_urgent: showUrgentOnly || undefined,
+            },
+            { preserveState: true },
+        );
+    };
 
     const hasActiveFilters =
         search ||
@@ -52,6 +81,7 @@ export default function OffersIndex() {
         setWorkMode('all');
         setExperienceLevel('all');
         setShowUrgentOnly(false);
+        router.get('/offers', {}, { preserveState: true });
     };
 
     return (
@@ -101,6 +131,9 @@ export default function OffersIndex() {
                                     className="h-12 border-white/10 bg-black/50 pl-10 text-white placeholder:text-neutral-500 focus-visible:ring-[#5617c2]"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
+                                    onKeyDown={(e) =>
+                                        e.key === 'Enter' && applyFilters()
+                                    }
                                 />
                             </div>
 
@@ -217,14 +250,14 @@ export default function OffersIndex() {
 
                     {/* Results Count */}
                     <div className="mb-6 text-sm text-neutral-500">
-                        Showing {offers.length} position
-                        {offers.length !== 1 ? 's' : ''}
+                        Showing {offers.data.length} of {offers.total} position
+                        {offers.total !== 1 ? 's' : ''}
                     </div>
 
                     {/* Grid */}
-                    {offers.length > 0 ? (
+                    {offers.data.length > 0 ? (
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {offers.map((offer) => (
+                            {offers.data.map((offer: Offer) => (
                                 <OfferCard key={offer.id} offer={offer} />
                             ))}
                         </div>

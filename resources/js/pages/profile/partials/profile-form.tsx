@@ -12,12 +12,10 @@ import {
 import { SkillsInput } from '@/components/ui/skills-input';
 import { Availability, EducationLevel, SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 export default function ProfileForm({
-    mustVerifyEmail,
-    status,
     className = '',
 }: {
     mustVerifyEmail: boolean;
@@ -60,8 +58,31 @@ export default function ProfileForm({
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log('Submitting profile update:', data);
-        // Mock submission - in real app: patch(route('profile.update'));
+
+        // Handle Resume Upload separately if new file selected
+        if (data.resume instanceof File) {
+            router.post(
+                '/candidate-profile/resume',
+                {
+                    resume: data.resume,
+                },
+                {
+                    forceFormData: true,
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        // Then update profile data
+                        patch('/candidate-profile', {
+                            preserveScroll: true,
+                        });
+                    },
+                },
+            );
+        } else {
+            // Just update profile data
+            patch('/candidate-profile', {
+                preserveScroll: true,
+            });
+        }
     };
 
     return (

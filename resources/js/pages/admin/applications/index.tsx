@@ -7,38 +7,90 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
-import { useApplications } from '@/hooks/use-mock-data';
 import AppLayout from '@/layouts/app-layout';
-import { Application, BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import type { Application, BreadcrumbItem } from '@/types';
+import { Head, router } from '@inertiajs/react';
 import { ChevronDown, Eye, MapPin, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { ApplicationDetailsDrawer } from './partials/application-details-drawer';
+
+interface PaginatedApplications {
+    data: Application[];
+    current_page: number;
+    last_page: number;
+    total: number;
+}
+
+interface PageProps {
+    applications: PaginatedApplications;
+    filters: {
+        status?: string;
+        offer_id?: string;
+        search?: string;
+    };
+    stats: {
+        total: number;
+        new: number;
+        shortlisted: number;
+        interview: number;
+        offered: number;
+        rejected: number;
+    };
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '/admin' },
     { title: 'Applications', href: '/admin/applications' },
 ];
 
-export default function AdminApplications() {
-    const allApplications = useApplications();
-    const [search, setSearch] = useState('');
+export default function AdminApplications({
+    applications,
+    filters,
+    stats,
+}: PageProps) {
+    const [search, setSearch] = useState(filters?.search || '');
     const [selectedApplication, setSelectedApplication] =
         useState<Application | null>(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    // Group applications by ID to ensure uniqueness, but we display Title
-    const applicationsByOffer = useMemo(() => {
-        const filtered = allApplications.filter(
-            (app) =>
-                app.user?.name.toLowerCase().includes(search.toLowerCase()) ||
-                app.offer?.title.toLowerCase().includes(search.toLowerCase()),
+    const handleSearch = () => {
+        router.get(
+            '/admin/applications',
+            {
+                search: search || undefined,
+                status: filters?.status,
+            },
+            { preserveState: true },
         );
+    };
 
+    const handleStatusFilter = (status: string) => {
+        router.get(
+            '/admin/applications',
+            {
+                search: filters?.search,
+                status: status === 'all' ? undefined : status,
+            },
+            { preserveState: true },
+        );
+    };
+
+    const handleUpdateStatus = (applicationId: number, newStatus: string) => {
+        router.patch(
+            `/admin/applications/${applicationId}/status`,
+            {
+                status: newStatus,
+            },
+            { preserveScroll: true },
+        );
+    };
+
+    // Group applications by offer
+    const applicationsByOffer = useMemo(() => {
         const groups: Record<number, { offerStub: any; apps: Application[] }> =
             {};
 
-        filtered.forEach((app) => {
+        applications.data.forEach((app: Application) => {
             const offerId = app.offer?.id || 0;
             if (!groups[offerId]) {
                 groups[offerId] = {
@@ -50,10 +102,9 @@ export default function AdminApplications() {
         });
 
         return Object.values(groups).sort((a, b) => {
-            // Sort by number of apps (descending)
             return b.apps.length - a.apps.length;
         });
-    }, [allApplications, search]);
+    }, [applications.data]);
 
     const handleViewApplication = (application: Application) => {
         setSelectedApplication(application);
