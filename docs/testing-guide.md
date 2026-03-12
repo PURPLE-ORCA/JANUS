@@ -334,3 +334,60 @@ When reporting an issue, please include:
 4. **Actual** behavior
 5. **Browser console errors** (if any)
 6. **Laravel log errors** (check `storage/logs/laravel.log`)
+
+---
+
+# 📝 Testing Tracker
+
+Use this checklist to track your progress as you verify the application.
+
+## 1. Authentication
+
+- [ ] Register new user (Pendng status check)
+- [ ] Access restricted routes (Redirect check)
+- [ ] Login as Candidate
+- [ ] Login as Admin
+
+## 2. Public Pages
+
+- [ ] **Homepage**: Active offers ticker
+- [ ] **Offers List**: Pagination loads
+- [ ] **Offers List**: Filtering (Type, Mode, Level)
+- [ ] **Offers List**: Search
+- [ ] **Offer Detail**: Content rendering
+- [ ] **Offer Detail**: "Apply" button logic
+
+## 3. Candidate Dashboard
+
+- [ ] **Stats**: Counters match DB
+- [ ] **Recent Apps**: List renders
+- [ ] **Profile Strength**: Progress bar updates
+- [ ] **Interview Alert**: Shows if scheduled
+
+## 4. Applications
+
+- [ ] **My Applications**: List renders
+- [ ] **My Applications**: Status colors correct
+- [ ] **Submission**: Apply to offer (Modal)
+- [ ] **Submission**: Resume upload
+- [ ] **Submission**: Validation (Double apply)
+
+## 5. Profile Management
+
+- [ ] **Edit Profile**: Update basic info
+- [ ] **Resume**: Upload PDF
+- [ ] **Resume**: Replace PDF
+- [ ] **Resume**: Delete PDF (if implemented)
+
+## 6. Admin Panel
+
+- [ ] **Dashboard**: Stats overview
+- [ ] **Users**: List & Filter
+- [ ] **Users**: Approve/Reject Candidates
+- [ ] **Offers**: Create New Offer
+- [ ] **Offers**: Edit Offer
+- [ ] **Offers**: Delete Offer
+- [ ] **Applications**: View List
+- [ ] **Applications**: Change Status (Shortlist/Reject)
+- [ ] **Applications**: Schedule Interview
+- [ ] **Companies**: Create/Edit Company
